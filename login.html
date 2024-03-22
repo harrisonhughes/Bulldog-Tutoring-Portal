@@ -11,7 +11,7 @@
       <nav>
         <div>
           <a href="home.html">Home</a>
-          <a href="portal.html">Portal</a>
+          <a href="portal.php">Portal</a>
           <a href="account.php">Account</a>
         </div>
       </nav>
@@ -21,12 +21,31 @@
       <div>
         <form action="credentials.php" method="post" id="loginForm">
           <fieldset>
-            <input type="text" placeholder="Email" name="email" id="email">
-            <input type="text" placeholder="Password" name="password" id="password">
+            <div>
+              <input type="text" placeholder="Email" name="email" id="email">
+              <p id="emailError" class="error">
+                <?php 
+                session_start();
+                if(isset($_SESSION['errors']['email'])){
+                  echo $_SESSION['errors']['email'];
+                  unset($_SESSION['errors']['email']);}
+                ?>
+              </p>
+            </div>
+            <div>
+              <input type="text" placeholder="Password" name="password" id="password">
+              <p id="passwordError" class="error">
+                <?php 
+                if(isset($_SESSION['errors']['password'])){
+                  echo $_SESSION['errors']['password'];
+                  unset($_SESSION['errors']['password']);}
+                ?>
+              </p>
+            </div>
             <a href="recoverAccount.php">Forgot password?</a>
             <div>
-              <input type="submit" name="loginForm" id="loginForm"/>
-              <input type="reset"/>
+              <input type="submit" value="Login" name="loginForm" id="loginForm"/>
+              <input type="reset" value="Clear"/>
             </div>
             <p>Don't have an account? <a href="createAccount.html">Sign up!</a></p>
           </fieldset>
