@@ -19,7 +19,7 @@
     <main>
       <h1>Signup</h1>
       <div>
-        <form action="credentials.php" method="post" id="createForm">
+        <form action="credentials.php" method="post">
           <fieldset>
             <input type="text" placeholder="Firstname" name="firstname" id="firstname">
             <input type="text" placeholder="Lastname" name="lastname" id="lastname">
@@ -27,7 +27,7 @@
             <input type="text" placeholder="Create password" name="password" id="password">
             <input type="text" placeholder="Comfirm password" name="confirmPassword" id="confirmPassword">
             <div>
-              <input type="submit"/>
+              <input type="submit" name="createForm" id="createForm"/>
               <input type="reset"/>
             </div>
           </fieldset>
