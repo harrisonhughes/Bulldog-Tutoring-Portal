@@ -4,38 +4,46 @@ CHARACTER SET utf8;
 
 USE tutoring_portal;
 
-#Table of Student Accounts
-CREATE TABLE student_accounts(
+#Table of User Accounts
+CREATE TABLE accounts(
     email VARCHAR(50) PRIMARY KEY,
     hashed_password CHAR(64) NOT NULL,
     firstname VARCHAR(50) NOT NULL,
     lastname VARCHAR(50) NOT NULL,
    	private_tutor TINYINT(1) DEFAULT 0,
+    account_type INT(1) DEFAULT 0,
     last_activity TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 #Table of Classes Offered
 CREATE TABLE courses(
-    id INT(10) AUTO_INCREMENT PRIMARY KEY,
-    subject VARCHAR(50) NOT NULL,
+    id INT(3) AUTO_INCREMENT PRIMARY KEY,
+    subject VARCHAR(5) NOT NULL,
     course_code INT(5) NOT NULL
 );
 
 #Table of Active Tutors
 CREATE TABLE active_tutors(
     email VARCHAR(50) NOT NULL,
-    course_id INT(10) NOT NULL,
+    course_id INT(3) NOT NULL,
     PRIMARY KEY (email, course_id),
-    FOREIGN KEY (email) REFERENCES student_accounts(email),
+    FOREIGN KEY (email) REFERENCES accounts(email),
     FOREIGN KEY (course_id) REFERENCES courses(id)
 );
 
 #Table of Referred Tutors
 CREATE TABLE referred_tutors(
     email VARCHAR(50) NOT NULL,
-    course_id INT(10) NOT NULL,
+    course_id INT(3) NOT NULL,
     PRIMARY KEY (email, course_id),
-    FOREIGN KEY (email) REFERENCES student_accounts(email),
+    FOREIGN KEY (course_id) REFERENCES courses(id)
+);
+
+#Table of Professor/Course pairs for a semester
+CREATE TABLE course_professors(
+    email VARCHAR(50) NOT NULL,
+    course_id INT(3) NOT NULL,
+    PRIMARY KEY (email, course_id),
     FOREIGN KEY (course_id) REFERENCES courses(id)
 );
 

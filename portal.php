@@ -38,14 +38,14 @@
         $courseCode = test_input($_POST['courseCode']);
 
          //Select query with sql injection attack prevention steps - Get all tutors for specific class 
-        $sql = "SELECT s_a.* FROM student_accounts s_a 
-                JOIN active_tutors a_t ON s_a.email = a_t.email
+        $sql = "SELECT a.* FROM accounts a 
+                JOIN active_tutors a_t ON a.email = a_t.email
                 JOIN courses c ON a_t.course_id = c.id
                 WHERE c.subject = ? AND c.course_code = ?";
 
         //Remove private tutors from query if scholarship select box is checked
         if(isset($_POST['scholTutor'])){
-          $sql = $sql . " AND s_a.private_tutor = 1";
+          $sql = $sql . " AND a.private_tutor = 1";
         }
         $result = $pdo->prepare($sql);
         $result->execute([$subject, $courseCode]);

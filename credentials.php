@@ -17,7 +17,7 @@
         if(!empty($email) && !empty($password)){
 
           //Select query with sql injection attack prevention steps - Get account with given email
-          $sql = "SELECT * FROM student_accounts WHERE email = ?";
+          $sql = "SELECT * FROM accounts WHERE email = ?";
           $result = $pdo->prepare($sql);
           $result->execute([$email]);
           $user = $result->fetch();
@@ -95,7 +95,7 @@
         if($validForm){
 
           //Select query with sql injection attack prevention steps - Get account with given email
-          $sql = "SELECT * FROM student_accounts WHERE email = ?";
+          $sql = "SELECT * FROM accounts WHERE email = ?";
           $result = $pdo->prepare($sql);
           $result->execute([$email]);
           $user = $result->fetch();
@@ -106,7 +106,7 @@
             //Insert query with sql injection attack prevention steps - Add new account to database
             $sqlValues = [$email, password_hash($password, PASSWORD_DEFAULT), $firstname, $lastname];
             $valuePlaceholders = rtrim(str_repeat('?,', count($sqlValues)), ',');
-            $sql = "INSERT INTO student_accounts (email, hashed_password, firstname, lastname) VALUES ({$valuePlaceholders})";
+            $sql = "INSERT INTO accounts (email, hashed_password, firstname, lastname) VALUES ({$valuePlaceholders})";
             $result = $pdo->prepare($sql);
             $result->execute($sqlValues);
 

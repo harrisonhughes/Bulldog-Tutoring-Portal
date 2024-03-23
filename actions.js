@@ -29,7 +29,7 @@ function addStudent(){
   newStudent.innerHTML = `<label for='email` + studentNumber + `'>Student ` + studentNumber + `</label>
                           <input type='text' name='emailList[]' id='email` + studentNumber + `'>
                           <p>@truman.edu</p>
-                          <p id='email1Error' class='error'>
+                          <p id='email` + studentNumber + `Error' class='error'>
                           <?php
                           if(isset($_SESSION['errors']['email` + studentNumber + `'])){
                             echo $_SESSION['errors']['email` + studentNumber + `'];
