@@ -56,10 +56,16 @@
         <h2>To-do List</h2>
         <ul>
           <?php
+          if(!empty($courses)){
+
             //List all courses that still need to have references submitted for by this professor
             foreach($courses as $course){
               echo "<li>" . $course['subject'] . " " . $course['course_code'] . "</li>";
             }
+          }
+          else{
+            echo "<li>You have completed all student referrals this semester!</li>";
+          }
           ?>
         </ul>
       </div>
@@ -83,15 +89,15 @@
                 for($studentIndex = 0; $studentIndex < count($_POST['emailList']); $studentIndex++){
                   $studentEmail = test_input($_POST['emailList'][$studentIndex]);
 
-                  //Field left empty
-                  if(empty($studentEmail)){
-                    $_SESSION['errors']['email' . $studentIndex + 1] = "Email cannot be empty";
-                    $validSubmission = false;
-                  }
-
                   //Duplicate emails entered
                   if(in_array($studentEmail, $students)){
                     $_SESSION['errors']['email' . $studentIndex + 1] = "Duplicate email entered";
+                    $validSubmission = false;
+                  }
+
+                  //Field left empty
+                  if(empty($studentEmail)){
+                    $_SESSION['errors']['email' . $studentIndex + 1] = "Email cannot be empty";
                     $validSubmission = false;
                   }
 
@@ -227,17 +233,19 @@
                         $studentNum++;
                       }
                     }
+
+                  //HTML trailer, 
+                  echo "</div>
+                  <button type='button' id='addInput' onClick='addStudent()'>+</button>
+                  <div>
+                    <input type='submit' name='submitReferences'/>
+                    <input type='reset'/>
+                  </div>
+                </fieldset>
+              </form>";
             }
           }
         ?>
-            </div>
-            <button type='button' id='addInput' onClick='addStudent()'>+</button>
-            <div>
-              <input type='submit' name='submitReferences'/>
-              <input type='reset'/>
-            </div>
-          </fieldset>
-        </form>
       </div>
     </main>
     <footer>
