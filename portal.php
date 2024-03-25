@@ -107,7 +107,7 @@
         <fieldset>
           <div class="portalForm">
             <label for="subject">Subject</label>
-            <select name ="subject" id="subject" onchange="getCourseCodes()">
+            <select name ="subject" id="subject" onchange="getCourseCodes('portal.php')">
               <option disabled selected value></option>
               <?php
                 //Display all possible subjects
@@ -119,6 +119,7 @@
             <label for="courseCode">Course Number</label>
             <select name ="courseCode" id="courseCode">
               <option disabled selected value></option>
+            </select>
             <div class="features">
               <input type="checkbox" name="scholTutor" id="scholTutor" value="1">
               <label for="scholTutor">Scholarship Tutors Only</label>

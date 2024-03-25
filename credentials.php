@@ -28,6 +28,13 @@
             //User fully authenticated, begin session and return to home page
             if(password_verify($password, $user['hashed_password'])){
               $_SESSION['user'] = $email;
+              $timeStamp = date('Y-m-d H:i:s');
+
+              //Update query with sql injection attack prevention steps - update last activity
+              $sql = "UPDATE accounts SET last_activity = ? WHERE email = ?";
+              $result = $pdo->prepare($sql);
+              $result->execute([$timeStamp, $email]);
+
               header("Location: home.html");
               $pdo = null;
               exit();

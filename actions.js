@@ -16,7 +16,7 @@ function getCourseCodes(){
     }
   };
   
-  ajax.open("GET", "portal.php?subject=" + subject, true);
+  ajax.open("GET", "?subject=" + subject, true);
   ajax.send();
 }
 
@@ -26,10 +26,13 @@ function addStudent(){
 
   newStudent.className = "studentEmail";
   newStudent.id = "student" + studentNumber;
-  newStudent.innerHTML = `<label for='email` + studentNumber + `'>Student ` + studentNumber + `</label>
+  newStudent.innerHTML = `<div>
+                          <label for='email` + studentNumber + `'>Student ` + studentNumber + `</label>
                           <input type='text' name='emailList[]' id='email` + studentNumber + `'>
                           <p>@truman.edu</p>
-                          <p id='email` + studentNumber + `Error' class='error'>
+                          <button type='button' class='removeInput' onClick='removeStudent(` + studentNumber + `)'>x</button>
+                          </div>
+                          <p id='email1Error' class='error'>
                           <?php
                           if(isset($_SESSION['errors']['email` + studentNumber + `'])){
                             echo $_SESSION['errors']['email` + studentNumber + `'];
@@ -41,3 +44,25 @@ function addStudent(){
 
   document.getElementById("emailList").appendChild(newStudent);
 }
+
+
+function removeStudent(removalIndex) {
+  var studentDivBlock = document.getElementById("emailList");
+  var studentList = studentDivBlock.children;
+  const numStudents = studentList.length;
+
+  var saveInputs = [];
+  for(var i = 1; i <= numStudents; i++){
+    if(i != removalIndex){
+      saveInputs.push(document.getElementById("email" + i).value);
+    }
+  }
+
+  var currentChild = studentList[numStudents - 1];
+  studentDivBlock.removeChild(currentChild);
+
+  for(var i = 1; i < numStudents; i++){
+    document.getElementById("email" + i).value = saveInputs[i - 1];
+  }
+}
+

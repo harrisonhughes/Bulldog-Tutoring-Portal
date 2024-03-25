@@ -12,11 +12,49 @@
 
     $email = test_input($_SESSION['user']);
 
+    
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+      if(isset($_POST['removeCourse'])){
+        $courseId = test_input($_POST['removeCourse']);
+
+        $sql = "DELETE FROM active_tutors WHERE course_id = ? AND email = ?";
+        $result = $pdo->prepare($sql);
+        $result->execute([$courseId, $email]);
+      }
+      else if(isset($_POST['acceptReferral'])){
+        $courseId = test_input($_POST['acceptReferral']);
+
+        $sql = "INSERT INTO active_tutors (email, course_id) VALUES (?, ?)";
+        $result = $pdo->prepare($sql);
+        $result->execute([$email, $courseId]);
+
+        $sql = "DELETE FROM referred_tutors WHERE course_id = ? AND email = ?";
+        $result = $pdo->prepare($sql);
+        $result->execute([$courseId, $email]);
+      }
+      else if(isset($_POST['declineReferral'])){
+        $courseId = test_input($_POST['declineReferral']);
+
+        $sql = "DELETE FROM referred_tutors WHERE course_id = ? AND email = ?";
+        $result = $pdo->prepare($sql);
+        $result->execute([$courseId, $email]);
+      }
+    }
+
     //Select query with sql injection attack prevention steps - Get account with given email
     $sql = "SELECT * FROM accounts WHERE email = ?";
     $result = $pdo->prepare($sql);
     $result->execute([$email]);
     $user = $result->fetch();
+
+    if($user['account_type'] == 1){
+      header("Location: reference.php");
+      exit();
+    }
+    else if($user['account_type'] == 2){
+      header("Location: admin.php");
+      exit();
+    }
 
     $uName = $user['firstname'] . " " . $user['lastname'];
 
@@ -125,7 +163,7 @@
                   echo 
                   "<tr><td>{$subject}</td>
                   <td>{$courseCode}</td>
-                  <td><button type='submit' name='removeCourse' value='{$id}'>X</button></td></tr>";
+                  <td><button type='submit' name='removeCourse' value='{$id}'>Remove Course</button></td></tr>";
                 }
               }
               ?>
@@ -155,12 +193,13 @@
                 foreach($referredCourses as $course){
                   $subject = $course['subject'];
                   $courseCode = $course['course_code'];
-                  $id = $course['course_code'];
+                  $id = $course['id'];
 
                   echo 
                   "<tr><td>{$subject}</td>
                   <td>{$courseCode}</td>
-                  <td><button type='submit' name='referral' value='{$id}'>Manage Referral</button></td></tr>";
+                  <td><button type='submit' name='acceptReferral' value='{$id}'>Accept Referral</button></td>
+                  <td><button type='submit' name='declineReferral' value='{$id}'>Decline Referral</button></td></tr>";
                 }
               }
               ?>

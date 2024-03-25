@@ -35,13 +35,20 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Refer Students</title>
+    <title>Faculty Referral Interface</title>
     <link rel="stylesheet" href="styles.css"/>
     <script src="actions.js"></script>
   </head>
   <body>
-    <header>
-      <h1>Bulldog Tutoring Portal</h1>
+  <header>
+    <h1>Bulldog Tutoring Portal</h1>
+      <nav>
+        <div>
+          <a href="home.html">Home</a>
+          <a href="portal.php">Portal</a>
+          <a href="account.php">Account</a>
+        </div>
+      </nav>
     </header>
     <main>
       <div>
@@ -71,7 +78,7 @@
       </div>
       <div>
         <?php
-          //If the professor has not submitted all referall lists for current period, display the referral list for the current class
+          //If the professor has not submitted all referral lists for current period, display the referral list for the current class
           if(isset($_SESSION['currentCourse'])){
             
             //Standardize current class
@@ -189,15 +196,17 @@
                 <fieldset>
                   <div id='emailList'>
                     <div class='studentEmail'>
-                      <label for='email1'>Student 1</label>
-                      <input type='text' name='emailList[]' id='email1'";
+                      <div>
+                        <label for='email1'>Student 1</label>
+                        <input type='text' name='emailList[]' id='email1'";
 
-                      if($savedStudents > 0){
-                        $savedEmail = $_SESSION['references'][0];
-                        echo "value='{$savedEmail}'";
-                      }
+                        if($savedStudents > 0){
+                          $savedEmail = $_SESSION['references'][0];
+                          echo "value='{$savedEmail}'";
+                        }
 
-                      echo "><p>@truman.edu</p>
+                        echo "><p>@truman.edu</p>
+                      </div>
                       <p id='email1Error' class='error'>";
 
                       if(isset($_SESSION['errors']['email1'])){
@@ -206,7 +215,7 @@
                       }
 
                       echo "</p>
-                    </div>";
+                      </div>";
 
                     //If any emails are saved (from entry errors or professor has "returned" from confirmation page) add more text boxes and display them
                     if($savedStudents > 1){
@@ -217,9 +226,12 @@
 
                         echo 
                         "<div class='studentEmail'>
-                          <label for='email{$studentNum}'>Student {$studentNum}</label>
-                          <input type='text' name='emailList[]' id='email{$studentNum}' value='{$savedEmail}'>
-                          <p>@truman.edu</p>
+                          <div>
+                            <label for='email{$studentNum}'>Student {$studentNum}</label>
+                            <input type='text' name='emailList[]' id='email{$studentNum}' value='{$savedEmail}'>
+                            <p>@truman.edu</p>
+                            <button type='button' class='removeInput' onClick='removeStudent({$studentNum})'>x</button>
+                          </div>
                           <p id='email{$studentNum}Error' class='error'>";
 
                           if(isset($_SESSION['errors']["email{$studentNum}"])){
@@ -229,7 +241,7 @@
                           
                           echo 
                           "</p>
-                        </div>";
+                          </div>";
                         $studentNum++;
                       }
                     }
