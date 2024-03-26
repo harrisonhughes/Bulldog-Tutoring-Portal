@@ -27,11 +27,13 @@
           </div>
           <div class="adminLink">
             <h2>Professors</h2>
-            <a href='adminFaculty.php'>Professors<a>
+            <a href='facultySearch.php'>Search by Professor<a>
+            <a href='facultyCourseSearch.php'>Search by Course<a>
           </div>
           <div class="adminLink">
             <h2>Admin</h2>
-            <a href='adminDriver.php'>Begin<a>
+            <a href='adminSearch.php'>Admin Accounts<a>
+            <a href='newSemester.php'>Transition Semesters<a>
           </div>
         </nav>
       </div>

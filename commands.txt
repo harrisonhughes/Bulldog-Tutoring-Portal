@@ -10,8 +10,7 @@ CREATE TABLE accounts(
     hashed_password CHAR(64) NOT NULL,
     firstname VARCHAR(50) NOT NULL,
     lastname VARCHAR(50) NOT NULL,
-   	private_tutor TINYINT(1) DEFAULT 0,
-    account_type INT(1) DEFAULT 0,
+   	account_type TINYINT(1) DEFAULT 0,
     last_activity TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

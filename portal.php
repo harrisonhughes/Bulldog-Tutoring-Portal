@@ -46,8 +46,16 @@
 
         //Remove private tutors from query if scholarship select box is checked
         if(isset($_POST['scholTutor'])){
-          $sql = $sql . " AND a.private_tutor = 1";
+          
+          //1 indicates only student tutors
+          $sql = $sql . " AND a.account_type = 1";
         }
+        else{
+
+          //(0,1) indicates both student and private tutors
+          $sql = $sql . " AND a.account_type IN (0,1)"; 
+        }
+
         $result = $pdo->prepare($sql);
         $result->execute([$subject, $courseCode]);
         $tutors = $result->fetchAll();
@@ -155,7 +163,7 @@
                 $name = $tutor['firstname'] . ' ' . $tutor['lastname'];
                 echo "<tr><td>{$name}</td>";
                 echo "<td>{$tutor['email']}</td>";
-                echo "<td>{$tutor['private_tutor']}</td>";
+                echo "<td>{$tutor['account_type']}</td>";
                 echo "<td>N/A</td></tr>";
               }
 

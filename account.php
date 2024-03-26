@@ -47,11 +47,11 @@
     $result->execute([$email]);
     $user = $result->fetch();
 
-    if($user['account_type'] == 1){
+    if($user['account_type'] == 2){
       header("Location: reference.php");
       exit();
     }
-    else if($user['account_type'] == 2){
+    else if($user['account_type'] == 3){
       header("Location: admin.php");
       exit();
     }

@@ -1,6 +1,5 @@
 <?php
-
-$STUDENT_ACCOUNT = '(0,1)';
+$PROFESSOR_ACCOUNT = 2;
 include 'functions.php';
 session_start();
 
@@ -10,8 +9,8 @@ try{
     $sql = "";
     $sqlValues = [];
 
-    if(isset($_POST['accountSearch'])){
-      $sql = "SELECT * FROM accounts WHERE account_type IN {$STUDENT_ACCOUNT}";
+    if(isset($_POST['facultySearch'])){
+      $sql = "SELECT * FROM accounts WHERE account_type = {$PROFESSOR_ACCOUNT}";
       $sqlColumns = [];
 
       if(!empty($_POST['fname'])){
@@ -26,10 +25,6 @@ try{
         $sqlValues[] = test_input($_POST['email']);
         $sqlColumns[] = "email";
       }
-      if(!empty($_POST['tutorType']) || test_input($_POST['tutorType']) == 0){
-        $sqlValues[] = test_input($_POST['tutorType']);
-        $sqlColumns[] = "account_type";
-      }
 
       if(!empty($sqlValues)){
         for($i = 0; $i < count($sqlValues); $i++){
@@ -37,8 +32,8 @@ try{
         } 
       }
 
-      $_SESSION['studentQuery'] = $sql;
-      $_SESSION['studentValues'] = $sqlValues;
+      $_SESSION['profQuery'] = $sql;
+      $_SESSION['profValues'] = $sqlValues;
     }
 
     else if(isset($_POST['sortSearch'])){
@@ -54,29 +49,26 @@ try{
       else if($sortBy == "Email"){
         $sortString = $sortString . "email";
       }
-      else if($sortBy == "Tutor Type"){
-        $sortString = $sortString . "account_type";
-      }
       else{
         $sortString = $sortString . "last_activity";
       }
 
-      $sqlValues = $_SESSION['studentValues'];
-      $sql = test_input($_SESSION['studentQuery']) . " " . $sortString;
-      if($sortString == test_input($_SESSION['studentSort'])){
+      $sqlValues = $_SESSION['profValues'];
+      $sql = test_input($_SESSION['profQuery']) . " " . $sortString;
+      if($sortString == test_input($_SESSION['profSort'])){
         $sql = $sql . " DESC";
-        unset($_SESSION['studentSort']);
+        unset($_SESSION['profSort']);
       }
       else{
-        $_SESSION['studentSort'] = $sortString;
+        $_SESSION['profSort'] = $sortString;
       }
     }
 
     $result = $pdo->prepare($sql);
     $result->execute($sqlValues);
-    $students = $result->fetchAll();
+    $professors = $result->fetchAll();
 
-    $numStudents = count($students);
+    $numProfs = count($professors);
   }
 }
 //Ensure proper error message is returned upon a database error
@@ -132,7 +124,7 @@ $pdo = null;
             <nav>
             </nav>
           </aside>
-          <form action='studentSearch.php' method='post' id='studentAdmin'>
+          <form action='facultySearch.php' method='post' id='facultyAdmin'>
           <fieldset>  
             <div>
               <label for='fname'>First Name</label>
@@ -141,13 +133,7 @@ $pdo = null;
               <input type='text' name='lname' id='lname'>
               <label for='email'>Email</label>
               <input type='text' name='email' id='email'>
-              <label for='tutorType'>Tutor Type</label>
-              <select name='tutorType' id='tutorType'>
-                <option disabled selected value></option>
-                <option value='0'>Private</option>
-                <option value='1'>Scholarship</option>
-              </select>
-              <input type='submit' name='accountSearch'>
+              <input type='submit' name='facultySearch'>
             </div>";
 
             if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -158,30 +144,24 @@ $pdo = null;
                   <td><input type='submit' name='sortSearch' value='Firstname'></td>
                   <td><input type='submit' name='sortSearch' value='Lastname'</td>
                   <td><input type='submit' name='sortSearch' value='Email'></td>
-                  <td><input type='submit' name='sortSearch' value='Tutor Type'</td>
                   <td><input type='submit' name='sortSearch' value='Last Activity'</td>
                 </tr>
               </thead>
               <tbody>";
 
-              foreach($students as $student){
-                $tutorType = "Private";
-                if($student['account_type'] == 1){
-                  $tutorType = "Scholarship";
-                }
+              foreach($professors as $professor){
           
-                $timeStamp = strtotime($student['last_activity']);
+                $timeStamp = strtotime($professor['last_activity']);
                 $timeStamp = date("m/d/Y", $timeStamp);
           
-                echo "<tr><td>{$student['firstname']}</td>
-                <td>{$student['lastname']}</td>
-                <td>{$student['email']}</td>
-                <td>{$tutorType}</td>
+                echo "<tr><td>{$professor['firstname']}</td>
+                <td>{$professor['lastname']}</td>
+                <td>{$professor['email']}</td>
                 <td>{$timeStamp}</td></tr>";
               }
           
               echo "</tbody><tfoot>
-              <tr><td colspan='6'>Search returned {$numStudents} students</td></tr>
+              <tr><td colspan='6'>Search returned {$numProfs} Professors</td></tr>
               </tfoot></table>";
             }
               

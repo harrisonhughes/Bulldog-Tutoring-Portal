@@ -1,6 +1,6 @@
 <?php
 
-  $STUDENT_ACCOUNT = '(0,1)';
+  $PROFESSOR_ACCOUNT = '2';
   include 'functions.php';
   session_start();
 
@@ -34,11 +34,11 @@
       $sqlValues = [];
       $sql = "";
 
-      if(isset($_POST['courseSearch'])){
+      if(isset($_POST['facultyCourseSearch'])){
         $sql = "SELECT a.*, c.* FROM accounts a 
-        JOIN active_tutors a_t ON a.email = a_t.email
-        JOIN courses c ON a_t.course_id = c.id
-        WHERE a.account_type IN {$STUDENT_ACCOUNT}";
+        JOIN course_professors c_p ON a.email = c_p.email
+        JOIN courses c ON c_p.course_id = c.id
+        WHERE a.account_type = {$PROFESSOR_ACCOUNT}";
 
         if(!empty($_POST['subject'])){
           $sqlValues[] = test_input($_POST['subject']);
@@ -55,8 +55,8 @@
           } 
         }
 
-        $_SESSION['courseQuery'] = $sql;
-        $_SESSION['courseValues'] = $sqlValues;
+        $_SESSION['profCourseQuery'] = $sql;
+        $_SESSION['profCourseValues'] = $sqlValues;
       }
 
       else if(isset($_POST['sortSearch'])){
@@ -78,29 +78,26 @@
         else if($sortBy == "Email"){
           $sortString = $sortString . "email";
         }
-        else if($sortBy == "Tutor Type"){
-          $sortString = $sortString . "account_type";
-        }
         else{
           $sortString = $sortString . "last_activity";
         }
 
-        $sqlValues = $_SESSION['courseValues'];
-        $sql = test_input($_SESSION['courseQuery']) . " " . $sortString;
-        if($sortString == test_input($_SESSION['studentSort'])){
+        $sqlValues = $_SESSION['profCourseValues'];
+        $sql = test_input($_SESSION['profCourseQuery']) . " " . $sortString;
+        if($sortString == test_input($_SESSION['profSort'])){
           $sql = $sql . " DESC";
-          unset($_SESSION['studentSort']);
+          unset($_SESSION['profSort']);
         }
         else{
-          $_SESSION['studentSort'] = $sortString;
+          $_SESSION['profSort'] = $sortString;
         }
       }
 
       $result = $pdo->prepare($sql);
       $result->execute($sqlValues);
-      $students = $result->fetchAll();
+      $professors = $result->fetchAll();
 
-      $numStudents = count($students);
+      $numProfs = count($professors);
     }
   }
 
@@ -156,7 +153,7 @@
             <nav>
             </nav>
           </aside>
-          <form action='courseSearch.php' method='post' id='courseAdmin'>
+          <form action='facultyCourseSearch.php' method='post' id='facultyCourseAdmin'>
           <fieldset>  
             <div>
               <label for='subject'>Subject</label>
@@ -172,13 +169,7 @@
               <select name ='courseCode' id='courseCode'>
                 <option disabled selected value></option>
               </select>
-              <label for='tutorType'>Tutor Type</label>
-              <select name='tutorType' id='tutorType'>
-                <option disabled selected value></option>
-                <option value='0'>Private</option>
-                <option value='1'>Scholarship</option>
-              </select>
-              <input type='submit' name='courseSearch'>
+              <input type='submit' name='facultyCourseSearch'>
             </div>";
             
           if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -190,32 +181,26 @@
                 <td><input type='submit' name='sortSearch' value='Firstname'></td>
                 <td><input type='submit' name='sortSearch' value='Lastname'</td>
                 <td><input type='submit' name='sortSearch' value='Email'></td>
-                <td><input type='submit' name='sortSearch' value='Tutor Type'</td>
                 <td><input type='submit' name='sortSearch' value='Last Activity'</td>
               </tr>
             </thead>
             <tbody>";
+    
+            foreach($professors as $professor){
 
-            foreach($students as $student){
-            $tutorType = "Private";
-            if(test_input($student['account_type']) == 1){
-              $tutorType = "Scholarship";
-            }
+              $timeStamp = strtotime($professor['last_activity']);
+              $timeStamp = date("m/d/Y", $timeStamp);
     
-            $timeStamp = strtotime($student['last_activity']);
-            $timeStamp = date("m/d/Y", $timeStamp);
-    
-            echo "<tr><td>{$student['subject']}</td>
-            <td>{$student['course_code']}</td>
-            <td>{$student['firstname']}</td>
-            <td>{$student['lastname']}</td>
-            <td>{$student['email']}</td>
-            <td>{$tutorType}</td>
+            echo "<tr><td>{$professor['subject']}</td>
+            <td>{$professor['course_code']}</td>
+            <td>{$professor['firstname']}</td>
+            <td>{$professor['lastname']}</td>
+            <td>{$professor['email']}</td>
             <td>{$timeStamp}</td></tr>";
           }
     
           echo "</tbody><tfoot>
-          <tr><td colspan='6'>Search returned {$numStudents} results</td></tr>
+          <tr><td colspan='6'>Search returned {$numProfs} results</td></tr>
           </tfoot></table>";
           }
               
