@@ -5,7 +5,7 @@
   try {
     $pdo = connect(); 
 
-    //Enter course codes to second select box once first select box is entered/changed
+    //Enter course codes to second select box once first select box is entered/changed ONLY ACCESSED THROUGH JAVASCRIPT AJAX REQUEST
     if(isset($_GET['subject'])){
       $subject = test_input($_GET['subject']);
 
@@ -34,6 +34,7 @@
 
       //Portal submission has been executed
       if(isset($_POST['subject']) && isset($_POST['courseCode'])){
+        $vaildQuery = true; // Ensures that webpage only displays table if both fields are set
         $subject = test_input($_POST['subject']);
         $courseCode = test_input($_POST['courseCode']);
 
@@ -131,26 +132,38 @@
           </div>
         </fieldset>
       </form>
-      <table class="tutorTable">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Tutor Type</th>
-            <th>Availability<th/>
-          </tr>
-        </thead>
-          <tbody>
-            <?php 
+            <?php
+
+              //Only display table if both subject and course code fields are set
+              if($vaildQuery){ 
+
+              //Open Table to display tutors
+              echo "<h2>Showing results for {$subject} {$courseCode} tutors</h2>
+              <table class='tutorTable'>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Tutor Type</th>
+                  <th>Availability<th/>
+                </tr>
+              </thead>
+              <tbody>";
+              
               //Fill table rows with tutor information if available
-              if(!empty($tutors)){
-                foreach($tutors as $tutor){
-                  $name = $tutor['firstname'] . ' ' . $tutor['lastname'];
-                  echo "<tr><td>{$name}</td>";
-                  echo "<td>{$tutor['email']}</td>";
-                  echo "<td>{$tutor['private_tutor']}</td>";
-                  echo "<td>N/A</td></tr>";
-                }
+              foreach($tutors as $tutor){
+                $name = $tutor['firstname'] . ' ' . $tutor['lastname'];
+                echo "<tr><td>{$name}</td>";
+                echo "<td>{$tutor['email']}</td>";
+                echo "<td>{$tutor['private_tutor']}</td>";
+                echo "<td>N/A</td></tr>";
+              }
+
+              //Display number of tutors in footer of table
+              $numTutors = count($tutors);
+              echo "</tbody><tfoot>
+              <tr><td colspan='6'>Search returned {$numTutors} students</td></tr>
+              </tfoot></table>";
               }
             ?>
           </tbody>

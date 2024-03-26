@@ -22,15 +22,15 @@
           <a href='admin.php'>Home</a>
           <div class="adminLink">
             <h2>Students</h2>
-            <a href='adminStudent.php?id=0'>Search by Student<a>
-            <a href='adminStudent.php?id=1'>Search by Course<a>
+            <a href='studentSearch.php'>Search by Student<a>
+            <a href='courseSearch.php'>Search by Course<a>
           </div>
           <div class="adminLink">
-            <h2>Faculty</h2>
+            <h2>Professors</h2>
             <a href='adminFaculty.php'>Professors<a>
           </div>
           <div class="adminLink">
-            <h2>New Semester</h2>
+            <h2>Admin</h2>
             <a href='adminDriver.php'>Begin<a>
           </div>
         </nav>
