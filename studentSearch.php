@@ -96,7 +96,10 @@ $pdo = null;
   </head>
   <body>
     <header>
-      <h1>Bulldog Tutoring Portal</h1>
+      <div>
+        <img src="https://seeklogo.com/images/T/truman-bulldogs-logo-819371EABE-seeklogo.com.png">
+        <span>Bulldog Tutoring Portal</span>
+      </div>
       <nav>
         <div>
           <a href="home.html">Home</a>
@@ -106,33 +109,41 @@ $pdo = null;
       </nav>
     </header>
     <main>
-      <div>
       <nav>
-          <a href='admin.php'>Home</a>
           <div class="adminLink">
-            <h2>Students</h2>
-            <a href='studentSearch.php'>Search by Student<a>
-            <a href='courseSearch.php'>Search by Course<a>
+            <a href='admin.php'>Home</a>
           </div>
           <div class="adminLink">
-            <h2>Professors</h2>
-            <a href='facultySearch.php'>Search by Professor<a>
-            <a href='facultyCourseSearch.php'>Search by Course<a>
+            <span>Students</span>
+            <div>
+              <a href='studentSearch.php'>Student Accounts<a>
+              <a href='tutorSearch.php'>Student Tutors<a>
+              <a href='referralSearch.php'>Student Referrals<a>
+            </div>
           </div>
           <div class="adminLink">
-            <h2>Admin</h2>
-            <a href='adminSearch.php'>Admin Accounts<a>
-            <a href='newSemester.php'>Transition Semesters<a>
+            <span>Professors</span>
+            <div>
+              <a href='facultySearch.php'>Professor Accounts<a>
+              <a href='facultyCourseSearch.php'>Professor Referrals<a>
+            </div>
+          </div>
+          <div class="adminLink">
+            <span>Admin</span>
+            <div>
+              <a href='adminSearch.php'>Admin Accounts<a>
+              <a href='courseSearch.php'>Manage Courses<a>          
+              <a href='newSemester.php'>Transition Semesters<a>
+            </div>
           </div>
         </nav>
-      </div>
       <?php
           echo"
           <aside>
             <nav>
             </nav>
           </aside>
-          <form action='studentSearch.php' method='post' id='studentAdmin'>
+          <form action='studentSearch.php' method='post' class = 'searchForm'>
           <fieldset>  
             <div>
               <label for='fname'>First Name</label>
@@ -152,7 +163,7 @@ $pdo = null;
 
             if($_SERVER["REQUEST_METHOD"] == "POST"){
               
-              echo "<table>
+              echo "<table class='searchTable'>
               <thead>
                 <tr>
                   <td><input type='submit' name='sortSearch' value='Firstname'></td>
@@ -181,7 +192,7 @@ $pdo = null;
               }
           
               echo "</tbody><tfoot>
-              <tr><td colspan='6'>Search returned {$numStudents} students</td></tr>
+              <tr><td colspan='6'>Search returned {$numStudents} results</td></tr>
               </tfoot></table>";
             }
               

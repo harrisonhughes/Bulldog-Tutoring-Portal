@@ -6,12 +6,15 @@
     <link rel="stylesheet" href="styles.css"/>
   </head>
   <body>
-    <header>
-      <h1>Bulldog Tutoring Portal</h1>
+  <header>
+      <div>
+        <img src="https://seeklogo.com/images/T/truman-bulldogs-logo-819371EABE-seeklogo.com.png">
+        <span>Bulldog Tutoring Portal</span>
+      </div>
       <nav>
         <div>
           <a href="home.html">Home</a>
-          <a href="portal.html">Portal</a>
+          <a href="portal.php">Portal</a>
           <a href="account.php">Account</a>
         </div>
       </nav>

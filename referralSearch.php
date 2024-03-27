@@ -33,12 +33,14 @@
       $sql = "";
 
       if(isset($_POST['courseSearch'])){
-        $sql = "SELECT c.*, 
-                COUNT(DISTINCT a_t.email) AS active_tutors, 
-                COUNT(DISTINCT r_t.email) AS referred_tutors
-                FROM courses c
-                LEFT JOIN active_tutors a_t ON a_t.course_id = c.id
-                LEFT JOIN referred_tutors r_t ON r_t.course_id = c.id";
+        $sql = "SELECT r_t.*, c.*, 
+                CASE 
+                WHEN a.email IS NOT NULL THEN 'Active Account' 
+                ELSE 'No Active Account' 
+                END AS account_type
+                FROM referred_tutors r_t
+                JOIN courses c ON r_t.course_id = c.id
+                LEFT JOIN accounts a ON r_t.email = a.email";
 
         if(!empty($_POST['subject'])){
           $sqlValues[] = test_input($_POST['subject']);
@@ -56,7 +58,11 @@
           } 
         }
 
-        $sql = $sql . " GROUP BY c.id";
+        if(!empty($_POST['accountType'])){
+          $sqlValues[] = test_input($_POST['accountType']);
+          $sql = $sql . " HAVING account_type = ?";
+        }
+
 
         $_SESSION['courseQuery'] = $sql;
         $_SESSION['courseValues'] = $sqlValues;
@@ -72,29 +78,29 @@
         else if($sortBy == "Course Number"){
           $sortString = $sortString . "course_code";
         }
-        else if($sortBy == "Active Tutors"){
-          $sortString = $sortString . "active_tutors";
+        else if($sortBy == "Email"){
+          $sortString = $sortString . "email";
         }
-        else if($sortBy == "Referred Tutors"){
-          $sortString = $sortString . "referred_tutors";
+        else if($sortBy == "Account Type"){
+          $sortString = $sortString . "account_type";
         }
 
         $sqlValues = $_SESSION['courseValues'];
         $sql = test_input($_SESSION['courseQuery']) . " " . $sortString;
-        if($sortString == test_input($_SESSION['courseSort'])){
+        if($sortString == test_input($_SESSION['referralSort'])){
           $sql = $sql . " DESC";
-          unset($_SESSION['courseSort']);
+          unset($_SESSION['referralSort']);
         }
         else{
-          $_SESSION['courseSort'] = $sortString;
+          $_SESSION['referralSort'] = $sortString;
         }
       }
 
       $result = $pdo->prepare($sql);
       $result->execute($sqlValues);
-      $courseVals = $result->fetchAll();
+      $students = $result->fetchAll();
 
-      $numCourses = count($courseVals);
+      $numStudents = count($students);
     }
   }
 
@@ -113,7 +119,7 @@
     <script src="actions.js"></script>
   </head>
   <body>
-    <header>
+     <header>
       <div>
         <img src="https://seeklogo.com/images/T/truman-bulldogs-logo-819371EABE-seeklogo.com.png">
         <span>Bulldog Tutoring Portal</span>
@@ -127,7 +133,8 @@
       </nav>
     </header>
     <main>
-    <nav>
+      <div>
+      <nav>
           <div class="adminLink">
             <a href='admin.php'>Home</a>
           </div>
@@ -162,11 +169,11 @@
             <nav>
             </nav>
           </aside>
-          <form action='courseSearch.php' method='post' class = 'searchForm'>
+          <form action='referralSearch.php' method='post' class = 'searchForm'>
           <fieldset>  
             <div>
               <label for='subject'>Subject</label>
-              <select name='subject' class='courseSelect' id='subject' onchange='getCourseCodes()'>
+              <select name='subject' id='subject' class='courseSelect' onchange='getCourseCodes()'>
                 <option disabled selected value></option>";
 
                 foreach($courses as $course){
@@ -178,6 +185,12 @@
               <select name ='courseCode' class='courseSelect' id='courseCode'>
                 <option disabled selected value></option>
               </select>
+              <label for='accountType'>Account Type</label>
+              <select name='accountType' id='activeAccount'>
+                <option disabled selected value></option>
+                <option value='Active Account'>Active Account</option>
+                <option value='No Active Account'>No Active Account</option>
+              </select>
               <input type='submit' name='courseSearch'>
             </div>";
             
@@ -187,21 +200,23 @@
               <tr>
                 <td><input type='submit' name='sortSearch' value='Subject'></td>
                 <td><input type='submit' name='sortSearch' value='Course Number'</td>
-                <td><input type='submit' name='sortSearch' value='Active Tutors'></td>
-                <td><input type='submit' name='sortSearch' value='Referred Tutors'</td>
+                <td><input type='submit' name='sortSearch' value='Email'></td>
+                <td><input type='submit' name='sortSearch' value='Account Type'</td>
               </tr>
             </thead>
             <tbody>";
 
-            foreach($courseVals as $course){
-            echo "<tr><td>{$course['subject']}</td>
-            <td>{$course['course_code']}</td>
-            <td>{$course['active_tutors']}</td>
-            <td>{$course['referred_tutors']}</td></tr>";
-          }
+            foreach($students as $student){
+              $accountType = test_input($student['account_type']);
+
+              echo "<tr><td>{$student['subject']}</td>
+              <td>{$student['course_code']}</td>
+              <td>{$student['email']}</td>
+              <td>{$accountType}</td></tr>";
+            }
     
           echo "</tbody><tfoot>
-          <tr><td colspan='4'>Search returned {$numCourses} results</td></tr>
+          <tr><td colspan='4'>Search returned {$numStudents} results</td></tr>
           </tfoot></table>";
           }
               

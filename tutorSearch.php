@@ -1,4 +1,6 @@
 <?php
+
+  $STUDENT_ACCOUNT = '(0,1)';
   include 'functions.php';
   session_start();
 
@@ -33,12 +35,10 @@
       $sql = "";
 
       if(isset($_POST['courseSearch'])){
-        $sql = "SELECT c.*, 
-                COUNT(DISTINCT a_t.email) AS active_tutors, 
-                COUNT(DISTINCT r_t.email) AS referred_tutors
-                FROM courses c
-                LEFT JOIN active_tutors a_t ON a_t.course_id = c.id
-                LEFT JOIN referred_tutors r_t ON r_t.course_id = c.id";
+        $sql = "SELECT a.*, c.* FROM accounts a 
+        JOIN active_tutors a_t ON a.email = a_t.email
+        JOIN courses c ON a_t.course_id = c.id
+        WHERE a.account_type IN {$STUDENT_ACCOUNT}";
 
         if(!empty($_POST['subject'])){
           $sqlValues[] = test_input($_POST['subject']);
@@ -50,13 +50,10 @@
         }
 
         if(!empty($sqlValues)){
-          $sql = $sql . " WHERE " . $sqlColumns[0] . " = ?";        
-          if(count($sqlValues) > 1){
-            $sql = $sql . " AND " . $sqlColumns[1] . " = ?";
+          for($i = 0; $i < count($sqlValues); $i++){
+            $sql = $sql . " AND " . $sqlColumns[$i] . " = ?";
           } 
         }
-
-        $sql = $sql . " GROUP BY c.id";
 
         $_SESSION['courseQuery'] = $sql;
         $_SESSION['courseValues'] = $sqlValues;
@@ -72,29 +69,38 @@
         else if($sortBy == "Course Number"){
           $sortString = $sortString . "course_code";
         }
-        else if($sortBy == "Active Tutors"){
-          $sortString = $sortString . "active_tutors";
+        else if($sortBy == "Firstname"){
+          $sortString = $sortString . "firstname";
         }
-        else if($sortBy == "Referred Tutors"){
-          $sortString = $sortString . "referred_tutors";
+        else if($sortBy == "Lastname"){
+          $sortString = $sortString . "lastname";
+        }
+        else if($sortBy == "Email"){
+          $sortString = $sortString . "email";
+        }
+        else if($sortBy == "Tutor Type"){
+          $sortString = $sortString . "account_type";
+        }
+        else{
+          $sortString = $sortString . "last_activity";
         }
 
         $sqlValues = $_SESSION['courseValues'];
         $sql = test_input($_SESSION['courseQuery']) . " " . $sortString;
-        if($sortString == test_input($_SESSION['courseSort'])){
+        if($sortString == test_input($_SESSION['tutorSort'])){
           $sql = $sql . " DESC";
-          unset($_SESSION['courseSort']);
+          unset($_SESSION['tutorSort']);
         }
         else{
-          $_SESSION['courseSort'] = $sortString;
+          $_SESSION['tutorSort'] = $sortString;
         }
       }
 
       $result = $pdo->prepare($sql);
       $result->execute($sqlValues);
-      $courseVals = $result->fetchAll();
+      $students = $result->fetchAll();
 
-      $numCourses = count($courseVals);
+      $numStudents = count($students);
     }
   }
 
@@ -127,7 +133,8 @@
       </nav>
     </header>
     <main>
-    <nav>
+      <div>
+      <nav>
           <div class="adminLink">
             <a href='admin.php'>Home</a>
           </div>
@@ -162,11 +169,11 @@
             <nav>
             </nav>
           </aside>
-          <form action='courseSearch.php' method='post' class = 'searchForm'>
+          <form action='tutorSearch.php' method='post' class = 'searchForm'>
           <fieldset>  
             <div>
               <label for='subject'>Subject</label>
-              <select name='subject' class='courseSelect' id='subject' onchange='getCourseCodes()'>
+              <select name='subject' id='subject' class='courseSelect' onchange='getCourseCodes()'>
                 <option disabled selected value></option>";
 
                 foreach($courses as $course){
@@ -178,6 +185,12 @@
               <select name ='courseCode' class='courseSelect' id='courseCode'>
                 <option disabled selected value></option>
               </select>
+              <label for='tutorType'>Tutor Type</label>
+              <select name='tutorType' id='tutorType'>
+                <option disabled selected value></option>
+                <option value='0'>Private</option>
+                <option value='1'>Scholarship</option>
+              </select>
               <input type='submit' name='courseSearch'>
             </div>";
             
@@ -187,21 +200,35 @@
               <tr>
                 <td><input type='submit' name='sortSearch' value='Subject'></td>
                 <td><input type='submit' name='sortSearch' value='Course Number'</td>
-                <td><input type='submit' name='sortSearch' value='Active Tutors'></td>
-                <td><input type='submit' name='sortSearch' value='Referred Tutors'</td>
+                <td><input type='submit' name='sortSearch' value='Firstname'></td>
+                <td><input type='submit' name='sortSearch' value='Lastname'</td>
+                <td><input type='submit' name='sortSearch' value='Email'></td>
+                <td><input type='submit' name='sortSearch' value='Tutor Type'</td>
+                <td><input type='submit' name='sortSearch' value='Last Activity'</td>
               </tr>
             </thead>
             <tbody>";
 
-            foreach($courseVals as $course){
-            echo "<tr><td>{$course['subject']}</td>
-            <td>{$course['course_code']}</td>
-            <td>{$course['active_tutors']}</td>
-            <td>{$course['referred_tutors']}</td></tr>";
+            foreach($students as $student){
+            $tutorType = "Private";
+            if(test_input($student['account_type']) == 1){
+              $tutorType = "Scholarship";
+            }
+    
+            $timeStamp = strtotime($student['last_activity']);
+            $timeStamp = date("m/d/Y", $timeStamp);
+    
+            echo "<tr><td>{$student['subject']}</td>
+            <td>{$student['course_code']}</td>
+            <td>{$student['firstname']}</td>
+            <td>{$student['lastname']}</td>
+            <td>{$student['email']}</td>
+            <td>{$tutorType}</td>
+            <td>{$timeStamp}</td></tr>";
           }
     
           echo "</tbody><tfoot>
-          <tr><td colspan='4'>Search returned {$numCourses} results</td></tr>
+          <tr><td colspan='7'>Search returned {$numStudents} results</td></tr>
           </tfoot></table>";
           }
               

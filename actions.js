@@ -66,3 +66,8 @@ function removeStudent(removalIndex) {
   }
 }
 
+function dropdown(){
+  var elements = document.getElementsByClassName("dropdown");
+  
+} 
+

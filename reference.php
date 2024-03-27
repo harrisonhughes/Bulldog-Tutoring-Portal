@@ -40,8 +40,11 @@
     <script src="actions.js"></script>
   </head>
   <body>
-  <header>
-    <h1>Bulldog Tutoring Portal</h1>
+    <header>
+      <div>
+        <img src="https://seeklogo.com/images/T/truman-bulldogs-logo-819371EABE-seeklogo.com.png">
+        <span>Bulldog Tutoring Portal</span>
+      </div>
       <nav>
         <div>
           <a href="home.html">Home</a>
@@ -139,6 +142,13 @@
                           <input type='submit' value='Confirm' name='confirmReferences'/>
                         </fieldset>
                       </form>";
+              }
+
+              //Clear all emails currently in input blocks
+              else if(isset($_POST['resetReferences'])){
+                unset($_SESSION['references']);
+                header("Location: reference.php");
+                exit();
               }
 
               //Return option from confirmation page has been pressed, go back to preliminary submission page (default with no post request)
@@ -244,6 +254,7 @@
                           </div>";
                         $studentNum++;
                       }
+                      unset($_SESSION['references']);
                     }
 
                   //HTML trailer, 
@@ -251,7 +262,7 @@
                   <button type='button' id='addInput' onClick='addStudent()'>+</button>
                   <div>
                     <input type='submit' name='submitReferences'/>
-                    <input type='reset'/>
+                    <input type='submit' value='Reset' name='resetReferences'/>
                   </div>
                 </fieldset>
               </form>";

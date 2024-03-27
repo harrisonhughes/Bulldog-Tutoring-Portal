@@ -94,7 +94,10 @@
   </head>
   <body>
     <header>
-      <h1>Bulldog Tutoring Portal</h1>
+      <div>
+        <img src="https://seeklogo.com/images/T/truman-bulldogs-logo-819371EABE-seeklogo.com.png">
+        <span>Bulldog Tutoring Portal</span>
+      </div>
       <nav>
         <div>
           <a href="home.html">Home</a>
@@ -112,11 +115,11 @@
           unset($_SESSION['errors']['portal']);}
         ?>
       </p>
-      <form action="portal.php" method="post" id="portal">
+      <form action="portal.php" method="post" class = 'searchForm'>
         <fieldset>
-          <div class="portalForm">
+          <div>
             <label for="subject">Subject</label>
-            <select name ="subject" id="subject" onchange="getCourseCodes('portal.php')">
+            <select name ="subject" id="subject" class='courseSelect' onchange="getCourseCodes('portal.php')">
               <option disabled selected value></option>
               <?php
                 //Display all possible subjects
@@ -126,7 +129,7 @@
               ?>
             </select>
             <label for="courseCode">Course Number</label>
-            <select name ="courseCode" id="courseCode">
+            <select name ="courseCode" class='courseSelect' id="courseCode">
               <option disabled selected value></option>
             </select>
             <div class="features">
@@ -134,7 +137,7 @@
               <label for="scholTutor">Scholarship Tutors Only</label>
             </div>
           </div>
-          <div>
+          <div class="portalButtons">
             <input type="submit" value="Search"/>
             <input type="reset" value="Clear"/>
           </div>
@@ -147,30 +150,35 @@
 
               //Open Table to display tutors
               echo "<h2>Showing results for {$subject} {$courseCode} tutors</h2>
-              <table class='tutorTable'>
+              <table class='searchTable'>
               <thead>
                 <tr>
                   <th>Name</th>
                   <th>Email</th>
                   <th>Tutor Type</th>
-                  <th>Availability<th/>
+                  <th>Availability</th>
                 </tr>
               </thead>
               <tbody>";
               
               //Fill table rows with tutor information if available
               foreach($tutors as $tutor){
+                $tutorType = "Private";
+                if(test_input($tutor['account_type']) == 1){
+                  $tutorType = "Scholarship";
+                }
+
                 $name = $tutor['firstname'] . ' ' . $tutor['lastname'];
                 echo "<tr><td>{$name}</td>";
                 echo "<td>{$tutor['email']}</td>";
-                echo "<td>{$tutor['account_type']}</td>";
+                echo "<td>{$tutorType}</td>";
                 echo "<td>N/A</td></tr>";
               }
 
               //Display number of tutors in footer of table
               $numTutors = count($tutors);
               echo "</tbody><tfoot>
-              <tr><td colspan='6'>Search returned {$numTutors} students</td></tr>
+              <tr><td colspan='4'>Search returned {$numTutors} students</td></tr>
               </tfoot></table>";
               }
             ?>

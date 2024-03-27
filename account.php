@@ -91,7 +91,10 @@
   </head>
   <body>
     <header>
-    <h1>Bulldog Tutoring Portal</h1>
+      <div>
+        <img src="https://seeklogo.com/images/T/truman-bulldogs-logo-819371EABE-seeklogo.com.png">
+        <span>Bulldog Tutoring Portal</span>
+      </div>
       <nav>
         <div>
           <a href="home.html">Home</a>
