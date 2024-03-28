@@ -101,6 +101,10 @@
       $students = $result->fetchAll();
 
       $numStudents = count($students);
+      $countMessage = $numStudents . " results";
+      if($numStudents == 1){
+        $countMessage = "1 result";
+      }
     }
   }
 
@@ -129,6 +133,7 @@
           <a href="home.html">Home</a>
           <a href="portal.php">Portal</a>
           <a href="account.php">Account</a>
+          <a href="login.html">Login</a>
         </div>
       </nav>
     </header>
@@ -141,34 +146,31 @@
           <div class="adminLink">
             <span>Students</span>
             <div>
-              <a href='studentSearch.php'>Student Accounts<a>
-              <a href='tutorSearch.php'>Student Tutors<a>
-              <a href='referralSearch.php'>Student Referrals<a>
+              <a href='studentSearch.php'>Student Accounts</a>
+              <a href='tutorSearch.php'>Student Tutors</a>
+              <a href='referralSearch.php'>Student Referrals</a>
             </div>
           </div>
           <div class="adminLink">
             <span>Professors</span>
             <div>
-              <a href='facultySearch.php'>Professor Accounts<a>
-              <a href='facultyCourseSearch.php'>Professor Referrals<a>
+              <a href='facultySearch.php'>Professor Accounts</a>
+              <a href='facultyCourseSearch.php'>Professor Referrals</a>
             </div>
           </div>
           <div class="adminLink">
             <span>Admin</span>
             <div>
-              <a href='adminSearch.php'>Admin Accounts<a>
-              <a href='courseSearch.php'>Manage Courses<a>          
-              <a href='newSemester.php'>Transition Semesters<a>
+              <a href='adminSearch.php'>Admin Accounts</a>
+              <a href='courseSearch.php'>Manage Courses</a>          
+              <a href='newSemester.php'>Transition Semesters</a>
             </div>
           </div>
         </nav>
       </div>
+      <h1 class="searchHeader">Search Active Referrals</h1>
       <?php
           echo"
-          <aside>
-            <nav>
-            </nav>
-          </aside>
           <form action='referralSearch.php' method='post' class = 'searchForm'>
           <fieldset>  
             <div>
@@ -216,7 +218,7 @@
             }
     
           echo "</tbody><tfoot>
-          <tr><td colspan='4'>Search returned {$numStudents} results</td></tr>
+          <tr><td colspan='4'>Search returned {$countMessage}</td></tr>
           </tfoot></table>";
           }
               

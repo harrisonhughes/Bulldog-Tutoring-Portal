@@ -99,15 +99,16 @@
         <span>Bulldog Tutoring Portal</span>
       </div>
       <nav>
-        <div>
+      <div>
           <a href="home.html">Home</a>
           <a href="portal.php">Portal</a>
           <a href="account.php">Account</a>
+          <a href="login.html">Login</a>
         </div>
       </nav>
     </header>
     <main>
-      <h1>Search for a Tutor!</h1>
+      <h1 class="searchHeader">Search for a Tutor!</h1>
       <p id="portalError" class="error">
         <?php 
         if(isset($_SESSION['errors']['portal'])){
@@ -149,7 +150,7 @@
               if($vaildQuery){ 
 
               //Open Table to display tutors
-              echo "<h2>Showing results for {$subject} {$courseCode} tutors</h2>
+              echo "<h2 class='resultHeader'>Showing results for {$subject} {$courseCode} tutors</h2>
               <table class='searchTable'>
               <thead>
                 <tr>
@@ -177,8 +178,12 @@
 
               //Display number of tutors in footer of table
               $numTutors = count($tutors);
+              $countMessage = $numTutors . " results";
+              if($numTutors == 1){
+                $countMessage = "1 result";
+              }
               echo "</tbody><tfoot>
-              <tr><td colspan='4'>Search returned {$numTutors} students</td></tr>
+              <tr><td colspan='4'>Search returned {$countMessage}</td></tr>
               </tfoot></table>";
               }
             ?>

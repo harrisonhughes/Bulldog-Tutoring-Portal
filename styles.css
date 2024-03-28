@@ -1,8 +1,8 @@
-html{
+html {
   height: 100%;
 }
 
-body{
+body {
   margin: 0px;
   padding: 0px;
   height: 100%;
@@ -11,7 +11,7 @@ body{
   font-family: Noto Sans, sans-serif;
 }
 
-header{
+header {
   color: white;
   background-color: #510c76;
   height: 60px;
@@ -23,30 +23,30 @@ header{
   border-bottom: 2px solid white;
 }
 
-header>div:first-child{
-  displaY: flex;
+header > div:first-child {
+  display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
-header span{
+header span {
   font-weight: bold;
   font-size: 16pt;
 }
 
-header img{
+header img {
   height: 50px;
   margin-left: 10px;
 }
 
-header nav a{
+header nav a {
   font-weight: bold;
   font-size: 12pt;
   margin: 20px;
 }
 
-main{
+main {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -54,126 +54,156 @@ main{
   width: 100%;
 }
 
-footer{
+footer {
   height: 60px;
   width: 100%;
   flex-shrink: 0;
   background-color: #510c76;
 }
 
-header h1{
+header h1 {
   margin-left: 15px;
 }
 
-header nav{
-  margin-right: 100px; 
+header nav {
+  margin-right: 100px;
 }
 
-header a{
+header a {
   text-decoration: none;
   color: white;
   margin-inline: 15px;
 }
 
-.error{
+.error {
   padding: 0px;
   margin: 0px;
+  text-align: center;
+  color: red;
 }
 
-.referredEmail{
-  display: flex;
-  flex-direction: row;
+main nav {
+  border-bottom: 1px solid black;
 }
 
-.studentEmail div{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-main nav{
-  margin-bottom: 20px;
-}
-
-.adminLink{
+.adminLink {
   position: relative;
   display: inline-block;
+  width: 200px;
+  margin-inline: 0px;
 }
 
-.adminLink>:first-child{
+.adminLink > :first-child {
   display: block;
   color: black;
-  margin: 20px;
-  margin-inline: 50px;
+  margin-block: 20px;
+  text-align: center;
   text-decoration: none;
   font-size: 12pt;
   font-weight: bold;
 }
 
-.adminLink div{
+.adminLink div {
   display: none;
 }
 
-.adminLink div a{
+.adminLink div a {
   display: block;
   padding: 10px;
   color: black;
   text-decoration: none;
 }
 
-.adminLink:hover div{
+.adminLink div a:hover {
+  background-color: lightgray;
+}
+
+.adminLink div a:last-child {
+  border-radius: 0px 0px 5px 5px;
+}
+
+.adminLink:hover div {
   display: block;
   position: absolute;
   background-color: white;
+  box-shadow: 0px 6px 10px -4px lightgray;
+  border-radius: 0px 0px 5px 5px;
+  width: 200px;
+  text-align: center;
   z-index: 1;
-  margin-inline: 25px; 
+  margin-top: 0px;
 }
 
-.adminLink div>*{
+.adminLink div > * {
   white-space: nowrap;
 }
 
-.searchForm fieldset{
+.searchHeader {
+  margin-block: 25px;
+}
+
+.resultHeader {
+  margin-block: 0px;
+}
+
+.searchForm {
+  margin-block: 0px;
+}
+
+.searchForm fieldset {
   border: none;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.searchForm fieldset>div{
+.searchForm fieldset > div {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.searchForm fieldset input, fieldset select{
+.searchForm fieldset input,
+fieldset select {
   padding: 5px;
   margin-right: 15px;
   margin-left: 5px;
   font-size: 12pt;
 }
 
-.portalButtons{
-  margin: 10px;
-}
-
-input[type="checkbox"]{
-  transform: scale(1.5);
-}
-
-.courseSelect{
+.portalButtons input[type="submit"],
+.portalButtons input[type="reset"] {
   width: 75px;
 }
 
-.searchTable{
-  margin-top: 20px;
+.portalButtons {
+  margin: 10px;
 }
 
-.searchTable thead{
+.features label {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+#scholTutor {
+  transform: scale(1.5);
+  margin-right: 2px;
+}
+
+.courseSelect {
+  width: 75px;
+}
+
+.searchTable {
+  margin-block: 25px;
+}
+
+.searchTable thead {
   background-color: #510c76;
 }
 
-.searchTable input, table thead th{
+.searchTable input,
+.searchTable thead th {
   background-color: transparent;
   border: none;
   color: white;
@@ -181,20 +211,165 @@ input[type="checkbox"]{
   font-weight: bold;
 }
 
-.searchTable tr:nth-child(2n){
+.searchTable tr:nth-child(2n) {
   background-color: lightgray;
 }
 
-.searchTable td, table th{
+.searchTable td,
+.searchTable th {
   padding: 5px 10px;
   font-weight: bold;
 }
 
-.searchTable tfoot td{
+.searchTable tfoot td {
   text-align: center;
   height: 50px;
+  font-size: 15pt;
+}
+
+.credentialPage {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.credentialForm fieldset {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 12px;
+  border: none;
+  padding: 25px;
+  padding-top: 10px;
+  background-color: lightgrey;
+  border: 1px solid black;
+}
+
+.credentialForm fieldset > * {
+  padding-block: 5px;
+}
+
+.credentialForm input[type="text"] {
+  padding: 10px;
+  border: none;
+  border-radius: 15px;
+  font-size: 14pt;
+}
+
+.credentialForm input[type="text"]::placeholder {
+  color: lightgray;
+}
+
+.credentialForm a {
+  text-decoration: none;
+}
+
+.credentialForm input[type="submit"] {
+  background-color: white;
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+  min-width: 150px;
+  border-radius: 15px;
+  font-size: 14pt;
+  font-weight: bold;
+}
+
+/**Reference Page*/
+#referencePage{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#referencePage h1, #referencePage h2{
+  text-align: center;
+}
+
+#referencePage ul{
+  list-style-type: none;
+  text-align: center;
+  padding-inline: 5px;
+  font-weight: bold;
 }
 
 
+#referenceForm fieldset{
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.studentEmail div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.studentEmail div label{
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.studentEmail div input{
+  padding: 5px;
+}
+
+#referenceForm input[type="submit"], #referenceForm input[type="reset"]{
+  background-color: transparent;
+  width: 75px;
+  padding: 5px;
+  font-size: 12pt;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+#referenceForm fieldset>div:last-child{
+  margin: 20px;
+}
+
+#addInput,
+.removeInput {
+  border: none;
+  border-radius: 15px;
+  height: 25px;
+  width: 25px;
+  color: white;
+  font-size: 12pt;
+  vertical-align: middle;
+}
 
 
+.removeInput {
+  border: 1px solid red;
+  color: red;
+  background-color: white;
+  margin-left: 5px;
+}
+
+#addInput {
+  background-image: linear-gradient(to right, #99ff99, #00ff00);
+  margin: 0px;
+  font-size: 14pt;
+  font-weight: bold;
+}
+
+/**Account Page*/
+#accountPage h1, #accountPage h2{
+  text-align: center;
+}
+
+.accountForm fieldset{
+  border: none;
+}
+
+.accountForm button{
+  font-size: 12pt;
+  background-color: transparent;
+  padding: 5px;
+}
+
+.accountTable td, .accountTable th{
+  padding-inline: 5px;
+}

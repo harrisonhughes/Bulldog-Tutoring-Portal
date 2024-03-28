@@ -12,10 +12,11 @@
         <span>Bulldog Tutoring Portal</span>
       </div>
       <nav>
-        <div>
+      <div>
           <a href="home.html">Home</a>
           <a href="portal.php">Portal</a>
           <a href="account.php">Account</a>
+          <a href="login.html">Login</a>
         </div>
       </nav>
     </header>
