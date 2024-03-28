@@ -30,7 +30,7 @@ function addStudent(){
                           <label for='email` + studentNumber + `'>Student ` + studentNumber + `</label>
                           <input type='text' name='emailList[]' id='email` + studentNumber + `'>
                           <p>@truman.edu</p>
-                          <button type='button' class='removeInput' onClick='removeStudent(` + studentNumber + `)'>x</button>
+                          <button type='button' class='removeInput' onClick='removeStudent(` + studentNumber + `)'>X</button>
                           </div>
                           <p id='email1Error' class='error'>
                           <?php
@@ -65,9 +65,4 @@ function removeStudent(removalIndex) {
     document.getElementById("email" + i).value = saveInputs[i - 1];
   }
 }
-
-function dropdown(){
-  var elements = document.getElementsByClassName("dropdown");
-  
-} 
 

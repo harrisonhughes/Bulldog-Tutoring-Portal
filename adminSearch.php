@@ -69,6 +69,10 @@ try{
     $admins = $result->fetchAll();
 
     $numAdmins = count($admins);
+    $countMessage = $numAdmins . " results";
+    if($numAdmins == 1){
+      $countMessage = "1 result";
+    }
   }
 }
 //Ensure proper error message is returned upon a database error
@@ -93,10 +97,11 @@ $pdo = null;
         <span>Bulldog Tutoring Portal</span>
       </div>
       <nav>
-        <div>
+      <div>
           <a href="home.html">Home</a>
           <a href="portal.php">Portal</a>
           <a href="account.php">Account</a>
+          <a href="login.html">Login</a>
         </div>
       </nav>
     </header>
@@ -109,28 +114,29 @@ $pdo = null;
           <div class="adminLink">
             <span>Students</span>
             <div>
-              <a href='studentSearch.php'>Student Accounts<a>
-              <a href='tutorSearch.php'>Student Tutors<a>
-              <a href='referralSearch.php'>Student Referrals<a>
+              <a href='studentSearch.php'>Student Accounts</a>
+              <a href='tutorSearch.php'>Student Tutors</a>
+              <a href='referralSearch.php'>Student Referrals</a>
             </div>
           </div>
           <div class="adminLink">
             <span>Professors</span>
             <div>
-              <a href='facultySearch.php'>Professor Accounts<a>
-              <a href='facultyCourseSearch.php'>Professor Referrals<a>
+              <a href='facultySearch.php'>Professor Accounts</a>
+              <a href='facultyCourseSearch.php'>Professor Referrals</a>
             </div>
           </div>
           <div class="adminLink">
             <span>Admin</span>
             <div>
-              <a href='adminSearch.php'>Admin Accounts<a>
-              <a href='courseSearch.php'>Manage Courses<a>          
-              <a href='newSemester.php'>Transition Semesters<a>
+              <a href='adminSearch.php'>Admin Accounts</a>
+              <a href='courseSearch.php'>Manage Courses</a>          
+              <a href='newSemester.php'>Transition Semesters</a>
             </div>
           </div>
         </nav>
       </div>
+      <h1 class="searchHeader">Search Admin Accounts</h1>
       <?php
           echo"
           <aside>
@@ -174,7 +180,7 @@ $pdo = null;
               }
           
               echo "</tbody><tfoot>
-              <tr><td colspan='6'>Search returned {$numAdmins} results</td></tr>
+              <tr><td colspan='6'>Search returned {$countMessage}</td></tr>
               </tfoot></table>";
             }
               

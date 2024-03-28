@@ -50,19 +50,13 @@
           <a href="home.html">Home</a>
           <a href="portal.php">Portal</a>
           <a href="account.php">Account</a>
+          <a href="login.html">Login</a>
         </div>
       </nav>
     </header>
-    <main>
+    <main id="referencePage">
       <div>
-        <h1>Welcome to the faculty interface for the Bulldog Tutoring Portal!</h1>
-        <p>First of all, thank you for your participation; without your tutoring recommendations this valuable student service could not exist.<br>
-          Please follow the instructions below to nominate students who you believe are worthy of being a potential future tutor for the current class.<br>
-          NOTE: you will submit one list of student recommendations for each class that you are currently teaching this semester!
-        </p>
-        <ol>
-          <li>Enter the email of </li>
-        </ol>
+        <h1>Faculty Referral Interface</h1>
         <h2>To-do List</h2>
         <ul>
           <?php
@@ -86,7 +80,7 @@
             
             //Standardize current class
             $course = $_SESSION['currentCourse']['subject'] . " " . $_SESSION['currentCourse']['course_code'];
-            echo "<h1>{$course}</h1>";
+            echo "<h2>{$course}</h2>";
 
             if($_SERVER["REQUEST_METHOD"] == "POST"){
 
@@ -202,7 +196,7 @@
               };
 
               //Display first student email textbox; the referral form will always show at least one textbox
-              echo "<form action='reference.php' method='post' id='reference'>
+              echo "<form action='reference.php' method='post' id='referenceForm'>
                 <fieldset>
                   <div id='emailList'>
                     <div class='studentEmail'>
@@ -240,7 +234,7 @@
                             <label for='email{$studentNum}'>Student {$studentNum}</label>
                             <input type='text' name='emailList[]' id='email{$studentNum}' value='{$savedEmail}'>
                             <p>@truman.edu</p>
-                            <button type='button' class='removeInput' onClick='removeStudent({$studentNum})'>x</button>
+                            <button type='button' class='removeInput' onClick='removeStudent({$studentNum})'>X</button>
                           </div>
                           <p id='email{$studentNum}Error' class='error'>";
 

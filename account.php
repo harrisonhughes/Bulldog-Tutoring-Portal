@@ -96,18 +96,19 @@
         <span>Bulldog Tutoring Portal</span>
       </div>
       <nav>
-        <div>
+      <div>
           <a href="home.html">Home</a>
           <a href="portal.php">Portal</a>
           <a href="account.php">Account</a>
+          <a href="login.html">Login</a>
         </div>
       </nav>
     </header>
-    <main>
+    <main id='accountPage'>
       <?php
         echo "<h1>{$uName}'s Account</h1>";
       ?>
-      <div class="information">
+      <div>
         <h2>Personal Information</h2>
         <div>
           <table>
@@ -141,11 +142,11 @@
           </table>
         </div>
       </div>
-      <div class="activeCourses">
+      <div>
         <h2>Current Tutoring Positions</h2>
-        <form action="account.php" method="post" id="manageCourses">
+        <form action="account.php" method="post" class="accountForm">
           <fieldset>
-            <table>
+            <table class='accountTable'>
               <thead>
                 <tr>
                   <th>Subject</th>
@@ -175,11 +176,11 @@
           </fieldset>
         </form>
       </div>
-      <div class="referredCourses">
+      <div>
         <h2>Current Referrals</h2>
-        <form action="account.php" method="post" id="manageReferrals">
+        <form action="account.php" method="post" class="accountForm">
           <fieldset>
-            <table>
+            <table class='accountTable'>
               <thead>
                 <tr>
                   <th>Subject</th>

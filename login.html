@@ -16,14 +16,15 @@
           <a href="home.html">Home</a>
           <a href="portal.php">Portal</a>
           <a href="account.php">Account</a>
+          <a href="login.html">Login</a>
         </div>
       </nav>
     </header>
-    <main>
-      <h1>Login</h1>
+    <main class = "credentialPage">
       <div>
-        <form action="credentials.php" method="post" id="loginForm">
+        <form action="credentials.php" method="post" class="credentialForm">
           <fieldset>
+            <h1>User Login</h1>
             <div>
               <input type="text" placeholder="Email" name="email" id="email">
               <p id="emailError" class="error">
@@ -46,10 +47,7 @@
               </p>
             </div>
             <a href="recoverAccount.php">Forgot password?</a>
-            <div>
-              <input type="submit" value="Login" name="loginForm" id="loginForm"/>
-              <input type="reset" value="Clear"/>
-            </div>
+            <input type="submit" value="LOGIN" name="loginForm" id="loginForm"/>
             <p>Don't have an account? <a href="createAccount.html">Sign up!</a></p>
           </fieldset>
         </form>
