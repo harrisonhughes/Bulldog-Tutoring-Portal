@@ -9,26 +9,24 @@
     <header>
       <div>
         <img src="https://seeklogo.com/images/T/truman-bulldogs-logo-819371EABE-seeklogo.com.png">
-        <span>Bulldog Tutoring Portal</span>
+        <span>The Bulldog Tutoring Portal</span>
       </div>
       <nav>
-        <div>
-          <a href="home.html">Home</a>
-          <a href="portal.php">Portal</a>
-          <a href="account.php">Account</a>
-        </div>
+          <a href="login.php"><span>Login</span></a>
       </nav>
     </header>
-    <main>
-      <h1>Signup</h1>
+    <main class = "credentialPage">
       <div>
-        <form action="credentials.php" method="post">
+        <form action="credentials.php" method="post" class="credentialForm">
           <fieldset>
+            <h1>Create an Account</h1>
             <div>
             <input type="text" placeholder="Firstname" name="firstname" id="firstname">
               <p id="fnameError" class="error">
                 <?php 
                 session_start();
+
+                //Error message configurations for each of the input types (more below)
                 if(isset($_SESSION['errors']['fname'])){
                   echo $_SESSION['errors']['fname'];
                   unset($_SESSION['errors']['fname']);}
@@ -56,7 +54,7 @@
               </p>
             </div>
             <div>
-              <input type="text" placeholder="Create password" name="password" id="password">
+              <input type="password" placeholder="Create password" name="password" class='password' id="password">
               <p id="passwordError" class="error">
                 <?php 
                 if(isset($_SESSION['errors']['password'])){
@@ -66,7 +64,7 @@
               </p>
             </div>
             <div>
-              <input type="text" placeholder="Comfirm password" name="confirmPassword" id="confirmPassword">
+              <input type="password" placeholder="Comfirm password" name="confirmPassword" class='password' id="confirmPassword">
               <p id="confPasswordError" class="error">
                 <?php 
                 if(isset($_SESSION['errors']['confPassword'])){
@@ -75,10 +73,7 @@
                 ?>
               </p>
             </div>
-            <div>
-              <input type="submit" value="Create Account" name="createForm" id="createForm"/>
-              <input type="reset" value="Clear"/>
-            </div>
+            <input type="submit" value="Create Account" name="createForm" id="createForm"/>
           </fieldset>
         </form>
       </div>

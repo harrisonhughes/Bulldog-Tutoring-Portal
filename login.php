@@ -1,3 +1,16 @@
+<?php
+session_start();
+//Save relevant login messages before ending session
+$messages = $_SESSION['message'];
+
+//Login page turns into logout page when user is logged in: log out user upon visting this page
+if(isset($_SESSION['user'])){
+  session_unset();
+}
+
+unset($_SESSION['recoveryEmail']);
+$_SESSION['message'] = $messages;
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -9,26 +22,30 @@
     <header>
       <div>
         <img src="https://seeklogo.com/images/T/truman-bulldogs-logo-819371EABE-seeklogo.com.png">
-        <span>Bulldog Tutoring Portal</span>
+        <span>The Bulldog Tutoring Portal</span>
       </div>
       <nav>
-        <div>
-          <a href="home.html">Home</a>
-          <a href="portal.php">Portal</a>
-          <a href="account.php">Account</a>
-        </div>
+          <a href="login.php"><span>Login</span></a>
       </nav>
     </header>
-    <main>
-      <h1>Login</h1>
+    <main class = "credentialPage">
+    <p id="loginMessage" class="message">
+      <?php 
+      //Display relevant messages
+      if(isset($_SESSION['message']['login'])){
+        echo $_SESSION['message']['login'];
+        unset($_SESSION['message']['login']);}
+      ?>
+    </p>
       <div>
-        <form action="credentials.php" method="post" id="loginForm">
+        <form action="credentials.php" method="post" class="credentialForm">
           <fieldset>
+            <h1>User Login</h1>
             <div>
               <input type="text" placeholder="Email" name="email" id="email">
               <p id="emailError" class="error">
                 <?php 
-                session_start();
+                //Display relevant errors for all input fields
                 if(isset($_SESSION['errors']['email'])){
                   echo $_SESSION['errors']['email'];
                   unset($_SESSION['errors']['email']);}
@@ -36,7 +53,7 @@
               </p>
             </div>
             <div>
-              <input type="text" placeholder="Password" name="password" id="password">
+              <input type="password" placeholder="Password" name="password" class='password' id="password">
               <p id="passwordError" class="error">
                 <?php 
                 if(isset($_SESSION['errors']['password'])){
@@ -46,11 +63,8 @@
               </p>
             </div>
             <a href="recoverAccount.php">Forgot password?</a>
-            <div>
-              <input type="submit" value="Login" name="loginForm" id="loginForm"/>
-              <input type="reset" value="Clear"/>
-            </div>
-            <p>Don't have an account? <a href="createAccount.html">Sign up!</a></p>
+            <input type="submit" value="LOGIN" name="loginForm" id="loginForm"/>
+            <p>Don't have an account? <a href="createAccount.php">Sign up!</a></p>
           </fieldset>
         </form>
       </div>

@@ -1,16 +1,16 @@
 //Display correct course codes in portal.html depending on subject selected
-function getCourseCodes(){
+function getCourseCodes(subject, courses){
 
   //Get value of subject select box when changed
-  var selectSubject = document.getElementById('subject');
+  var selectSubject = document.getElementById(subject);
   var subject = selectSubject.options[selectSubject.selectedIndex].value;
   
   var ajax = new XMLHttpRequest();
 
-  ajax.onreadystatechange = function() {
-    if(ajax.readyState == XMLHttpRequest.DONE) {
-        if (ajax.status == 200) {
-        var selectCodes = document.getElementById("courseCode");
+  ajax.onreadystatechange = function(){
+    if(ajax.readyState == XMLHttpRequest.DONE){
+        if(ajax.status == 200){
+        var selectCodes = document.getElementById(courses);
         selectCodes.innerHTML = ajax.responseText;
       }
     }
@@ -30,7 +30,7 @@ function addStudent(){
                           <label for='email` + studentNumber + `'>Student ` + studentNumber + `</label>
                           <input type='text' name='emailList[]' id='email` + studentNumber + `'>
                           <p>@truman.edu</p>
-                          <button type='button' class='removeInput' onClick='removeStudent(` + studentNumber + `)'>x</button>
+                          <button type='button' class='removeInput' onClick='removeStudent(` + studentNumber + `)'>X</button>
                           </div>
                           <p id='email1Error' class='error'>
                           <?php
@@ -66,8 +66,17 @@ function removeStudent(removalIndex) {
   }
 }
 
-function dropdown(){
-  var elements = document.getElementsByClassName("dropdown");
-  
-} 
+function confirmMessage(message){
+  if(confirm(message)){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
+function showWaiting(pBlock){
+  var submittedBlock = document.getElementById(pBlock);
+  submittedBlock.innerHTML = "Executing...";
+}
 

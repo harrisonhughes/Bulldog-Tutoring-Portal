@@ -1,6 +1,23 @@
 <?php
-  include_once 'functions.php';
+  //Begin session, set inactivity timout constant (2 hours)
   session_start();
+  $TIME_OUT = 60 * 60 * 2;
+
+  //If user is not set, access credentials are not set, last activity is not set, or last activity is beyond timeout length
+  if(!isset($_SESSION['user']) || !isset($_SESSION['credentials']) || !isset($_SESSION['lastActivity']) || time() - $_SESSION['lastActivity'] > $TIME_OUT){
+
+    //If last activity is set and beyond timeout length, set output message and send user to login page to be logged out
+    if(isset($_SESSION['lastActivity']) && time() - $_SESSION['lastActivity'] > $TIME_OUT){
+      $_SESSION['message']['login'] = "You were logged out due to inactivity";
+    }
+    header("Location: login.php");
+    exit();
+  }
+
+  //Update last activity variable
+  $_SESSION['login'] = time();
+  
+  include_once 'functions.php';
 
   try {
     $pdo = connect(); 
@@ -24,7 +41,7 @@
     }
 
      //Select query with sql injection attack prevention steps - Get all subjects
-    $sql = "SELECT DISTINCT subject FROM courses";
+    $sql = "SELECT DISTINCT subject FROM courses ORDER BY subject";
     $result = $pdo->prepare($sql);
     $result->execute();
     $courses = $result->fetchAll();
@@ -56,6 +73,8 @@
           $sql = $sql . " AND a.account_type IN (0,1)"; 
         }
 
+        $sql .= " ORDER BY a.lastname";
+
         $result = $pdo->prepare($sql);
         $result->execute([$subject, $courseCode]);
         $tutors = $result->fetchAll();
@@ -78,8 +97,10 @@
   }
 
   //Unable to create connection with database
-  catch (PDOException $e){
-    die( $e->getMessage());
+  catch(PDOException $e){
+    $error = $e->getMessage();
+    echo "<p>Critical Error (Database):<br><br>{$error}<br><br>Please save this message and inform the head website administrator as soon as possible.</p>";
+    exit(); 
   }
   $pdo = null;
 ?>
@@ -93,97 +114,116 @@
     <script src="actions.js"></script>
   </head>
   <body>
-    <header>
+  <header>
       <div>
         <img src="https://seeklogo.com/images/T/truman-bulldogs-logo-819371EABE-seeklogo.com.png">
-        <span>Bulldog Tutoring Portal</span>
+        <span>The Bulldog Tutoring Portal</span>
       </div>
       <nav>
-        <div>
-          <a href="home.html">Home</a>
-          <a href="portal.php">Portal</a>
-          <a href="account.php">Account</a>
-        </div>
+          <a href="index.php"><span>Home</span></a>
+          <a href="portal.php"><span class='active'>Portal</span></a>
+          <a href="account.php"><span>Account</span></a>
+          <a href="login.php"><span>Logout</span></a>
       </nav>
     </header>
-    <main>
-      <h1>Search for a Tutor!</h1>
-      <p id="portalError" class="error">
-        <?php 
-        if(isset($_SESSION['errors']['portal'])){
-          echo $_SESSION['errors']['portal'];
-          unset($_SESSION['errors']['portal']);}
-        ?>
-      </p>
-      <form action="portal.php" method="post" class = 'searchForm'>
-        <fieldset>
+    <main id="portal">
+      <aside>
+        <div>
+          <h2><a href="https://excellence.truman.edu/tutoring/">University Resources</a></h2>
           <div>
-            <label for="subject">Subject</label>
-            <select name ="subject" id="subject" class='courseSelect' onchange="getCourseCodes('portal.php')">
-              <option disabled selected value></option>
+          <a href="https://excellence.truman.edu/tutoring/cae-tutoring-center/">Tutoring Center</a>
+          <a href="https://writingcenter.truman.edu/">Writing Center</a>
+          <a href="https://truman.mywconline.com/">Schedule University Tutoring</a>
+          </div>
+          <h2><a href="https://excellence.truman.edu/tutoring/departmental-tutoring/">Departmental Resources</a></h2>
+          <div>
+          <a href="https://chemlab.truman.edu/ccc/">Chemistry Tutoring</a>
+          <a href="https://sps.truman.edu/tutoring/">Physics Tutoring</a>
+          <a href="https://llc.truman.edu/">Language Learning Center</a>
+          </div>
+        </div>  
+      </aside>
+      <div>
+        <h1 class="mainHeader">Search for a Tutor!</h1>
+        <p id="portalError" class="error">
+          <?php 
+          //Display error message if applicable
+          if(isset($_SESSION['errors']['portal'])){
+            echo $_SESSION['errors']['portal'];
+            unset($_SESSION['errors']['portal']);}
+          ?>
+        </p>
+        <form action="portal.php" method="post">
+          <fieldset>
+            <div>
+              <label for="subject">Subject</label>
+              <select name ="subject" id="subject" class='courseSelect' onchange="getCourseCodes('subject', 'courseCode')">
+                <option disabled selected value></option>
+                <?php
+                  //Display all possible subjects
+                  foreach($courses as $course){
+                    echo "<option value='{$course['subject']}'>" . $course['subject'] . "</option>";
+                  }
+                ?>
+              </select>
+              <label for="courseCode">Course Number</label>
+              <select name ="courseCode" class='courseSelect' id="courseCode">
+                <option disabled selected value></option>
+              </select>
+              <div class="features">
+                <input type="checkbox" name="scholTutor" id="scholTutor" value="1">
+                <label for="scholTutor">Scholarship Tutors Only</label>
+              </div>
+            </div>
+            <div id="portalButtons">
+              <input class='blueButton' type="submit" value="Search for Tutors!"/>
+            </div>
+          </fieldset>
+        </form>
               <?php
-                //Display all possible subjects
-                foreach($courses as $course){
-                  echo "<option value='{$course['subject']}'>" . $course['subject'] . "</option>";
+
+                //Only display table if both subject and course code fields are set
+                if(!empty($vaildQuery)){ 
+
+                //Open Table to display tutors
+                echo "<h2 class='resultHeader'>Showing results for {$subject} {$courseCode}</h2>
+                <table class='searchTable'>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Tutor Type</th>
+                  </tr>
+                </thead>
+                <tbody>";
+                
+                //Fill table rows with tutor information if available
+                foreach($tutors as $tutor){
+                  $tutorType = "Private";
+                  if(test_input($tutor['account_type']) == 1){
+                    $tutorType = "Scholarship";
+                  }
+
+                  $name = $tutor['firstname'] . ' ' . $tutor['lastname'];
+                  echo "<tr><td>{$name}</td>
+                  <td><a href='mailto:{$tutor['email']}'>{$tutor['email']}</a></td>
+                  <td>{$tutorType}</td></tr>";
+                }
+
+                //Display number of tutors in footer of table
+                $numTutors = count($tutors);
+                $countMessage = $numTutors . " results";
+                if($numTutors == 1){
+                  $countMessage = "1 result";
+                }
+                echo "</tbody><tfoot>
+                <tr><td colspan='4'>Search returned {$countMessage}</td></tr>
+                </tfoot></table>";
                 }
               ?>
-            </select>
-            <label for="courseCode">Course Number</label>
-            <select name ="courseCode" class='courseSelect' id="courseCode">
-              <option disabled selected value></option>
-            </select>
-            <div class="features">
-              <input type="checkbox" name="scholTutor" id="scholTutor" value="1">
-              <label for="scholTutor">Scholarship Tutors Only</label>
-            </div>
-          </div>
-          <div class="portalButtons">
-            <input type="submit" value="Search"/>
-            <input type="reset" value="Clear"/>
-          </div>
-        </fieldset>
-      </form>
-            <?php
-
-              //Only display table if both subject and course code fields are set
-              if($vaildQuery){ 
-
-              //Open Table to display tutors
-              echo "<h2>Showing results for {$subject} {$courseCode} tutors</h2>
-              <table class='searchTable'>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Tutor Type</th>
-                  <th>Availability</th>
-                </tr>
-              </thead>
-              <tbody>";
-              
-              //Fill table rows with tutor information if available
-              foreach($tutors as $tutor){
-                $tutorType = "Private";
-                if(test_input($tutor['account_type']) == 1){
-                  $tutorType = "Scholarship";
-                }
-
-                $name = $tutor['firstname'] . ' ' . $tutor['lastname'];
-                echo "<tr><td>{$name}</td>";
-                echo "<td>{$tutor['email']}</td>";
-                echo "<td>{$tutorType}</td>";
-                echo "<td>N/A</td></tr>";
-              }
-
-              //Display number of tutors in footer of table
-              $numTutors = count($tutors);
-              echo "</tbody><tfoot>
-              <tr><td colspan='4'>Search returned {$numTutors} students</td></tr>
-              </tfoot></table>";
-              }
-            ?>
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
     </main>
     <footer>
     </footer>
