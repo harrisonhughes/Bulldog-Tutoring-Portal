@@ -1,3 +1,10 @@
+/**Using imported font face*/
+@font-face {
+  font-family: "Hurme Geometric Sans 1 Bold";
+  src: url("HurmeGeometricSans1 Bold.otf") format("truetype");
+}
+
+/**Styling main html containers*/
 html {
   height: 100%;
 }
@@ -11,16 +18,25 @@ body {
   font-family: Noto Sans, sans-serif;
 }
 
+main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
 header {
   color: white;
   background-color: #510c76;
-  height: 60px;
+  min-height: 80px;
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid white;
+  border-bottom: 3px solid white;
+  font-family: "Hurme Geometric Sans 1 Bold", sans-serif;
 }
 
 header > div:first-child {
@@ -30,49 +46,59 @@ header > div:first-child {
   align-items: center;
 }
 
-header span {
+header div span {
   font-weight: bold;
-  font-size: 16pt;
+  font-size: 20pt;
 }
 
 header img {
-  height: 50px;
-  margin-left: 10px;
+  height: 75px;
+  margin-left: 15px;
+}
+
+header nav {
+  display: flex;
+  flex-direction: row;
+  margin-right: 50px;
+}
+
+header nav span {
+  display: inline-block;
+  height: 80px;
+  padding-inline: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 13pt;
 }
 
 header nav a {
   font-weight: bold;
-  font-size: 12pt;
-  margin: 20px;
+  text-decoration: none;
+  color: white;
 }
 
-main {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-footer {
-  height: 60px;
-  width: 100%;
-  flex-shrink: 0;
-  background-color: #510c76;
+header nav a:hover {
+  color: #00a8e2;
 }
 
 header h1 {
   margin-left: 15px;
 }
 
-header nav {
-  margin-right: 100px;
+footer {
+  height: 80px;
+  width: 100%;
+  flex-shrink: 0;
+  background-color: #510c76;
+  border-top: 3px solid white;
 }
 
-header a {
-  text-decoration: none;
-  color: white;
-  margin-inline: 15px;
+/**Styling global clases*/
+.active {
+  background-color: #410c5e;
+  height: 80px;
 }
 
 .error {
@@ -82,6 +108,37 @@ header a {
   color: red;
 }
 
+.message {
+  padding: 0px;
+  margin: 0px;
+  text-align: center;
+  color: green;
+}
+
+.mainHeader {
+  font-family: "Hurme Geometric Sans 1 Bold", sans-serif;
+  margin-bottom: 25px;
+  font-size: 35pt;
+  font-weight: bold;
+  color: #510c76;
+}
+
+.blueButton {
+  background-color: transparent;
+  outline: 3px solid #00a8e2;
+  border: none;
+  color: #00a8e2;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.blueButton:hover {
+  color: white;
+  background-color: #00a8e2;
+}
+
+/**Styling Admin Nav Bar*/
 main nav {
   border-bottom: 1px solid black;
 }
@@ -89,7 +146,7 @@ main nav {
 .adminLink {
   position: relative;
   display: inline-block;
-  width: 200px;
+  min-width: 250px;
   margin-inline: 0px;
 }
 
@@ -128,7 +185,7 @@ main nav {
   background-color: white;
   box-shadow: 0px 6px 10px -4px lightgray;
   border-radius: 0px 0px 5px 5px;
-  width: 200px;
+  min-width: 250px;
   text-align: center;
   z-index: 1;
   margin-top: 0px;
@@ -138,16 +195,613 @@ main nav {
   white-space: nowrap;
 }
 
-.searchHeader {
-  margin-block: 25px;
+/**Styling Home Page*/
+#homePage {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+  font-family: "Hurme Geometric Sans 1 Bold", sans-serif;
 }
 
+#homePage h1 {
+  font-size: 80pt;
+  color: #87714d;
+  text-align: end;
+  margin-block: 0px;
+  margin-right: 35px;
+  animation: flyInFromLeft 1s ease-out forwards;
+}
+
+.homeBlock {
+  max-width: 320px;
+  border-radius: 10px;
+  padding: 12px;
+  margin-block: 12px;
+  animation: flyInFromRight 1s ease-out forwards;
+}
+
+#homePage h2 {
+  color: #510c76;
+  font-size: 30pt;
+  margin-block: 0px;
+}
+
+#homePage p {
+  margin-top: 5px;
+  margin-bottom: 0px;
+  color: #510c76;
+  text-align: justify;
+  font-size: 13pt;
+}
+
+@keyframes flyInFromLeft {
+  from {
+    transform: translateX(-200%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes flyInFromRight {
+  from {
+    transform: translateX(200%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/** Styling Login Page*/
+.credentialPage {
+  padding-top: 30px;
+  background-image: linear-gradient(#dddddd, #bbbbbb);
+  color: white;
+}
+
+.credentialPage h1 {
+  font-weight: 1000;
+  width: 100%;
+  border-top: 2px solid white;
+  border-bottom: 2px solid white;
+  text-align: center;
+  margin-block: 15px;
+}
+
+.credentialForm fieldset {
+  margin-top: 30px;
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 12px;
+  border: none;
+  padding: 25px;
+  padding-top: 10px;
+  background-image: linear-gradient(90deg, #510c76, #6d1e97);
+  border: 2px solid white;
+}
+
+.credentialForm fieldset > * {
+  padding-block: 5px;
+}
+
+.credentialForm div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.credentialForm input[type="text"],
+.credentialForm input[type="password"] {
+  padding: 10px;
+  border: none;
+  border-radius: 15px;
+  font-size: 14pt;
+  margin-block: 1px;
+  border: 2px solid white;
+  color: white;
+  font-weight: bold;
+  background-color: transparent;
+}
+
+.credentialForm input[type="text"]::placeholder,
+.credentialForm input[type="password"]::placeholder {
+  color: white;
+  font-weight: normal;
+}
+
+.credentialForm a {
+  text-decoration: none;
+  color: #00a8e2;
+}
+
+.credentialForm a:hover {
+  color: white;
+}
+
+.credentialForm input[type="submit"] {
+  background-color: transparent;
+  border: 2px solid white;
+  padding: 10px;
+  margin-top: 10px;
+  min-width: 150px;
+  border-radius: 15px;
+  font-size: 14pt;
+  font-weight: bold;
+  color: white;
+}
+
+.credentialForm input[type="submit"]:hover {
+  background-color: #00a8e2;
+  border-color: #00a8e2;
+  cursor: pointer;
+}
+
+/**Styling Portal Page*/
+#portal {
+  flex-direction: row;
+  align-items: start;
+  justify-content: center;
+  font-family: Noto Sans, sans-serif;
+  font-weight: bold;
+}
+
+#portal aside {
+  height: 100%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 2px solid white;
+  background-color: #e6e6e6;
+  border: 2px solid #510c76;
+  border-left: none;
+  box-sizing: border-box;
+}
+
+#portal aside div div {
+  display: flex;
+  flex-direction: column;
+}
+
+#portal aside h2 {
+  font-size: 12pt;
+  margin-bottom: 12px;
+  padding-inline: 15px;
+  padding-block: 5px;
+  border-top: 2px solid #510c76;
+  border-bottom: 2px solid #510c76;
+  background-color: white;
+  text-align: center;
+}
+
+#portal aside h2:last-of-type {
+  margin-top: 50px;
+}
+
+#portal aside a {
+  text-decoration: none;
+  color: #510c76;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+#portal aside a:hover {
+  color: #00a8e2;
+}
+
+#portal aside div div a {
+  font-size: 11pt;
+  margin-block: 6px;
+  padding-inline: 15px;
+  text-align: center;
+}
+
+#portal fieldset {
+  border: none;
+}
+
+#portal table a{
+  color: #510c76;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#portal fieldset > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+#portal > div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #510c76;
+}
+
+#portal h1 {
+  margin-bottom: 10px;
+}
+
+#portal form {
+  margin-top: 10px;
+}
+
+#portal option,
+#portal select {
+  color: #510c76;
+  font-weight: bold;
+}
+
+#portalButtons {
+  margin-top: 10px;
+}
+
+#portalButtons > * {
+  margin: 12px;
+  padding: 7px;
+  font-size: 13pt;
+}
+
+#portalButton > *:hover {
+  background-color: #00a8e2;
+}
+
+#portal > div h1 {
+  margin-top: 25px;
+}
+
+#scholTutor {
+  transform: scale(1.5);
+  margin-right: 4px;
+}
+
+.features label {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+
+
+
+/**Styling Student Account Page*/
+#accountPage {
+  font-family: Noto Sans, sans-serif;
+}
+
+#accountPage .accountBubble {
+  padding-top: 0px;
+}
+
+#accountPage h1 {
+  color: #510c76;
+}
+
+#accountPage h1,
+#accountPage h2 {
+  text-align: center;
+}
+
+#accountPage h2 {
+  margin-bottom: 5px;
+  border-top: 2px solid white;
+  border-bottom: 2px solid white;
+  color: white;
+}
+
+#accountPage ul {
+  color: white;
+  list-style-type: decimal;
+  font-size: 12pt;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-inline: 10px;
+  margin-top: 5px;
+  padding-left: 20px;
+  font-weight: bold;
+}
+
+#accountPage > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.accountBubble {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  margin-inline: 5px;
+  border-radius: 10px;
+  padding: 16px;
+  border: 2px solid white;
+  box-shadow: 0px 6px 10px 0px #555555;
+  background-image: linear-gradient(#510c76, #7a3a9d);
+}
+
+#accountPage p {
+  color: white;
+}
+
+#accountPage a {
+  text-decoration: none;
+  font-weight: bold;
+  color: white;
+}
+
+#accountPage a:hover {
+  color: #00a8e2;
+}
+
+.accountForm fieldset {
+  border: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-bottom: 0px;
+}
+
+#accountPage table {
+  margin-bottom: 10px;
+}
+
+#accountPage tbody th {
+  padding-right: 10px;
+}
+
+.accountForm td:first-child,
+.accountTable:first-of-type {
+  font-size: 14pt;
+  color: white;
+}
+
+.accountForm button {
+  font-size: 12pt;
+  padding: 5px;
+  margin: 2px;
+}
+
+.accountTable td,
+.accountTable th {
+  padding-inline: 5px;
+}
+
+.deleteForm {
+  color: red;
+}
+
+.deleteForm fieldset {
+  border: none;
+}
+
+.deleteForm button {
+  background-color: white;
+  outline: 2px solid red;
+  color: red;
+  border-radius: 2px;
+  border: none;
+  font-size: 15pt;
+  font-weight: bold;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.deleteForm button:hover {
+  background-color: red;
+  color: white;
+}
+
+/**Styling Professor Reference Page*/
+#referencePage > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  color: white;
+}
+
+#referencePage h2 {
+  font-size: 20pt;
+  font-weight: 1000;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+#referencePage h1,
+#referencePage h2 {
+  text-align: center;
+}
+
+#referencePage .accountBubble > ul {
+  text-align: center;
+  padding-inline: 5px;
+  font-weight: bold;
+  list-style-type: none;
+  margin-top: 0px;
+  font-size: 15pt;
+}
+
+#referencePage .accountBubble > div > ul {
+  padding-left: 10px;
+  margin-inline: 15px;
+  list-style-type: none;
+  text-align: center;
+}
+
+#referencePage .accountBubble > div > ul li {
+  margin-block: 8px;
+  font-size: 12pt;
+}
+
+#referencePage .accountBubble > div > ul li b {
+  color: #00a8e2;
+}
+
+#referenceForm{
+  min-width: 400px;
+}
+
+#referenceForm fieldset,
+#confirmReference fieldset {
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.studentEmail div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.studentEmail div label {
+  margin-right: 15px;
+  font-weight: bold;
+  font-size: 12pt;
+}
+
+.studentEmail div input {
+  padding: 4px;
+}
+
+.checkList {
+  margin-bottom: 0px;
+}
+
+#referenceForm input[type="text"] {
+  color: #510c76;
+  font-weight: bold;
+  font-size: 12pt;
+}
+
+.studentEmail p {
+  font-weight: bold;
+  margin-block: 5px;
+}
+
+.studentEmail .error {
+  font-size: 10pt;
+}
+
+#referenceForm input[type="submit"],
+#confirmReference input[type="submit"],
+#referenceForm input[type="reset"] {
+  width: 90px;
+  padding: 5px;
+  font-size: 14pt;
+  margin: 4px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+#referenceForm fieldset > div:last-child {
+  margin-top: 15px;
+  margin-bottom: 0px;
+}
+
+#addInput,
+.removeInput {
+  border: none;
+  border-radius: 15px;
+  height: 25px;
+  color: white;
+  font-size: 12pt;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.removeInput {
+  width: 25px;
+  border: none;
+  outline: 2px solid red;
+  color: red;
+  background-color: transparent;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.removeInput:hover {
+  color: white;
+  background-color: red;
+}
+
+#addInput {
+  background-color: white;
+  margin: 0px;
+  margin-top: 5px;
+  font-size: 14pt;
+  font-weight: bold;
+  width: 150px;
+  color: #510c76;
+}
+
+#addInput:hover {
+  outline: 2px solid #00a8e2;
+  color: #00a8e2;
+}
+
+/**Admin home page styling*/
+#adminHome h1 {
+  margin-bottom: 10px;
+}
+
+#adminBlocks {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#adminBlocks div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-inline: 20px;
+  color: white;
+  max-width: 350px;
+  background-image: linear-gradient(#510c76, #7a3a9d);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+#adminBlocks h2 {
+  font-size: 25pt;
+  margin-bottom: 10px;
+  width: 100%;
+  border-top: 2px solid white;
+  border-bottom: 2px solid white;
+  text-align: center;
+  font-weight: 1000;
+}
+
+#adminBlocks p {
+  font-weight: bold;
+  text-align: justify;
+  font-size: 13pt;
+  margin-inline: 10px;
+}
+
+/**Admin Search Formatting*/
 .resultHeader {
   margin-block: 0px;
 }
 
 .searchForm {
   margin-block: 0px;
+  color: #510c76;
 }
 
 .searchForm fieldset {
@@ -155,11 +809,25 @@ main nav {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0px;
+}
+
+.searchForm fieldset > div > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-block: 10px;
+}
+
+.searchForm fieldset > div > div:first-child {
+  display: flex;
+  margin-top: 0px;
 }
 
 .searchForm fieldset > div {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
@@ -171,44 +839,45 @@ fieldset select {
   font-size: 12pt;
 }
 
-.portalButtons input[type="submit"],
-.portalButtons input[type="reset"] {
-  width: 75px;
+.searchForm .blueButton {
+  padding-inline: 8px;
+  font-size: 13pt;
 }
 
-.portalButtons {
-  margin: 10px;
-}
-
-.features label {
-  padding-left: 0px;
-  padding-right: 0px;
-}
-
-#scholTutor {
-  transform: scale(1.5);
-  margin-right: 2px;
+.searchForm fieldset input[type="text"],
+.searchForm fieldset select,
+.searchForm fieldset option,
+.searchForm fieldset label {
+  color: #510c76;
+  font-weight: bold;
 }
 
 .courseSelect {
-  width: 75px;
+  width: 90px;
 }
 
 .searchTable {
   margin-block: 25px;
+  font-family: Noto Sans, sans-serif;
 }
 
 .searchTable thead {
   background-color: #510c76;
 }
 
-.searchTable input,
+.searchTable tbody,
+.searchTable tfoot {
+  color: #510c76;
+}
+
+.searchTable thead input,
 .searchTable thead th {
   background-color: transparent;
   border: none;
   color: white;
   font-size: 12pt;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .searchTable tr:nth-child(2n) {
@@ -221,155 +890,195 @@ fieldset select {
   font-weight: bold;
 }
 
+.searchTable td input:hover {
+  color: #00a8e2;
+}
+
 .searchTable tfoot td {
   text-align: center;
   height: 50px;
   font-size: 15pt;
 }
 
-.credentialPage {
-  height: 100%;
-  display: flex;
-  justify-content: center;
+.searchTable .view {
+  text-align: center;
 }
 
-.credentialForm fieldset {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 12px;
-  border: none;
-  padding: 25px;
-  padding-top: 10px;
-  background-color: lightgrey;
-  border: 1px solid black;
-}
-
-.credentialForm fieldset > * {
-  padding-block: 5px;
-}
-
-.credentialForm input[type="text"] {
-  padding: 10px;
-  border: none;
-  border-radius: 15px;
-  font-size: 14pt;
-}
-
-.credentialForm input[type="text"]::placeholder {
-  color: lightgray;
-}
-
-.credentialForm a {
-  text-decoration: none;
-}
-
-.credentialForm input[type="submit"] {
+.searchTable tbody button {
+  padding-block: 3px;
   background-color: white;
+}
+
+.searchTable tfoot button {
   border: none;
-  padding: 10px;
-  margin-top: 10px;
-  min-width: 150px;
-  border-radius: 15px;
-  font-size: 14pt;
+  background-color: transparent;
+  color: #510c76;
   font-weight: bold;
+  font-size: 15pt;
+  cursor: pointer;
 }
 
-/**Reference Page*/
-#referencePage{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.searchTable tfoot button:hover {
+  color: #00a8e2;
 }
 
-#referencePage h1, #referencePage h2{
-  text-align: center;
+/**Admin display page styling*/
+.display h1 {
+  margin-bottom: 10px;
 }
 
-#referencePage ul{
-  list-style-type: none;
-  text-align: center;
-  padding-inline: 5px;
-  font-weight: bold;
-}
-
-
-#referenceForm fieldset{
+.display fieldset {
   border: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.studentEmail div {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
 }
 
-.studentEmail div label{
-  margin-right: 15px;
-  font-weight: bold;
-}
-
-.studentEmail div input{
-  padding: 5px;
-}
-
-#referenceForm input[type="submit"], #referenceForm input[type="reset"]{
-  background-color: transparent;
-  width: 75px;
-  padding: 5px;
-  font-size: 12pt;
-  border-radius: 5px;
-  font-weight: bold;
-}
-
-#referenceForm fieldset>div:last-child{
-  margin: 20px;
-}
-
-#addInput,
-.removeInput {
-  border: none;
-  border-radius: 15px;
-  height: 25px;
-  width: 25px;
-  color: white;
-  font-size: 12pt;
-  vertical-align: middle;
-}
-
-
-.removeInput {
-  border: 1px solid red;
-  color: red;
-  background-color: white;
-  margin-left: 5px;
-}
-
-#addInput {
-  background-image: linear-gradient(to right, #99ff99, #00ff00);
+.display select {
   margin: 0px;
-  font-size: 14pt;
+}
+
+.display .accountBubble {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: white;
+}
+
+.display .accountBubble h2 {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border-top: 2px solid white;
+  border-bottom: 2px solid white;
+}
+
+.display .accountBubble table {
+  margin-bottom: 10px;
+}
+
+.display .displayCourses {
   font-weight: bold;
 }
 
-/**Account Page*/
-#accountPage h1, #accountPage h2{
-  text-align: center;
+.display select,
+.display option {
+  font-weight: bold;
+  color: #510c76;
 }
 
-.accountForm fieldset{
-  border: none;
-}
-
-.accountForm button{
-  font-size: 12pt;
-  background-color: transparent;
+.display .blueButton {
   padding: 5px;
+  font-size: 11pt;
+  margin-block: 4px;
 }
 
-.accountTable td, .accountTable th{
+.display td {
   padding-inline: 5px;
+}
+
+.displayCourses {
+  border-collapse: collapse;
+}
+
+.returnForm {
+  position: absolute;
+  top: 100px;
+  left: 20px;
+}
+
+.returnForm button {
+  font-size: 17pt;
+  padding: 4px;
+  background-color: transparent;
+  border: none;
+  color: #510c76;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.returnForm button:hover {
+  color: #00a8e2;
+}
+
+/**Add Course admin page styling*/
+#addCourse fieldset {
+  border: none;
+  display: flex;
+  flex-direction: row;
+  color: #510c76;
+  font-weight: bold;
+  align-items: center;
+  margin-top: 10px;
+}
+
+#addCourse input[type="text"] {
+  padding: 5px;
+  margin-right: 15px;
+}
+
+#addCourse label {
+  margin-right: 5px;
+}
+
+#addCourse input[type="submit"] {
+  padding: 6px;
+  font-size: 12pt;
+}
+
+#addPage h1 {
+  margin-bottom: 10px;
+}
+
+/**New Semester Page Styling*/
+#newSemester {
+  color: #510c76;
+}
+
+#newSemester h1 {
+  margin-bottom: 10px;
+}
+
+#newSemester:first-of-type > h2 {
+  margin-top: 10px;
+}
+
+#newSemester h2 {
+  margin: 0px;
+}
+
+#newSemester .completionStatus {
+  margin-top: 5px;
+  margin-bottom: 0px;
+}
+
+#newSemester input::file-selector-button {
+  background-color: white;
+  outline: 2px solid #00a8e2;
+  border: none;
+  color: #00a8e2;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#newSemester input::file-selector-button:hover {
+  background-color: #00a8e2;
+  color: white;
+}
+
+#newSemester .blueButton,
+#newSemester input::file-selector-button {
+  font-size: 12pt;
+  padding: 4px;
+  margin: 10px;
+}
+
+.transitionForm {
+  margin-top: 0px;
+}
+
+.stepHeader {
+  margin-bottom: 0px;
 }

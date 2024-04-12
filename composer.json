@@ -1,0 +1,13 @@
+{
+    "name": "cs370/bulldog-tutoring",
+    "description": "Bulldog Tutoring Portal",
+    "type": "library",
+    "license": "",
+    "minimum-stability": "stable",
+    "require": {
+        "phpmailer/phpmailer": "^6.9",
+        "ext-gd": "*",
+        "ext-fileinfo": "*",
+        "shuchkin/simplexlsx": "^1.0"
+    }
+}

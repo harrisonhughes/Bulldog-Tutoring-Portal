@@ -11,7 +11,6 @@ CREATE TABLE accounts(
     firstname VARCHAR(50) NOT NULL,
     lastname VARCHAR(50) NOT NULL,
    	account_type TINYINT(1) DEFAULT 0,
-
     last_activity TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -19,7 +18,7 @@ CREATE TABLE accounts(
 CREATE TABLE courses(
     id INT(3) AUTO_INCREMENT PRIMARY KEY,
     subject VARCHAR(5) NOT NULL,
-    course_code INT(5) NOT NULL
+    course_code VARCHAR(5) NOT NULL
 );
 
 #Table of Active Tutors
@@ -27,8 +26,8 @@ CREATE TABLE active_tutors(
     email VARCHAR(50) NOT NULL,
     course_id INT(3) NOT NULL,
     PRIMARY KEY (email, course_id),
-    FOREIGN KEY (email) REFERENCES accounts(email),
-    FOREIGN KEY (course_id) REFERENCES courses(id)
+    FOREIGN KEY (email) REFERENCES accounts(email) ON DELETE CASCADE,
+    FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
 );
 
 #Table of Referred Tutors
@@ -36,7 +35,7 @@ CREATE TABLE referred_tutors(
     email VARCHAR(50) NOT NULL,
     course_id INT(3) NOT NULL,
     PRIMARY KEY (email, course_id),
-    FOREIGN KEY (course_id) REFERENCES courses(id)
+    FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
 );
 
 #Table of Professor/Course pairs for a semester
@@ -44,6 +43,26 @@ CREATE TABLE course_professors(
     email VARCHAR(50) NOT NULL,
     course_id INT(3) NOT NULL,
     PRIMARY KEY (email, course_id),
-    FOREIGN KEY (course_id) REFERENCES courses(id)
+    FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
 );
+
+#List of email accounts that have opted out of email receiving 
+CREATE TABLE opt_outs(
+    email VARCHAR(50) PRIMARY KEY,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+#Table to keep track of admin transition period information
+CREATE TABLE semesters(
+    term_code INT(6) PRIMARY KEY,
+    file_uploaded TIMESTAMP DEFAULT "2000-01-01 00:00:00",
+    professor_emails TIMESTAMP DEFAULT "2000-01-01 00:00:00",
+    student_emails TIMESTAMP DEFAULT "2000-01-01 00:00:00",
+    professor_reminders INT(1) DEFAULT 0,
+    student_reminders INT(1) DEFAULT 0
+);
+
+#Fake Fall 2023 transition row
+INSERT INTO semesters (term_code, file_uploaded, professor_emails, student_emails, professor_reminders, student_reminders)
+VALUES (202360, '2023-12-01 00:00:00', '2023-12-01 00:00:00', '2024-01-25 00:00:00', 1, 1)
 
