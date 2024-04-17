@@ -6,14 +6,16 @@ The Bulldog Tutoring Portal can best be described as the infrastructure of a com
 The application is open-source and we encourage any and everyone interested in implementing a similar system for their University to look around and see how we approached this challenge. For those who just want to see the finished result, visit our live site at https://BulldogTutoringPortal.com - keep in mind that a new account creation will limit you to that of a student view, and you will be unable to interact with the bulk of the functionality that is reserved for privileged administration accounts. 
 
 ## Programs and Dependencies
-There are many moving pieces involved in the use and access of our program on a personal device if you wish to view the application in a development setting. We will provide a basic installation description for those unfamiliar with all of these pieces, but feel free to proceed as you would like.
-Programs and Dependencies Used:   
+There are many moving pieces involved in the use and access of our program on a personal device if you wish to view the application in a development setting. We will provide a basic installation description for those unfamiliar with all of these pieces, but feel free to proceed as you would like.  
   
+Programs used:   
 -Local Web Server (Apache Recommended)  
 -MySQL Database Environment (PHPMyAdmin recommended)  
 -PHP (8.0+ Recommended)  
 -JavaScript  
 -HTML/CSS  
+  
+Dependencies for special features  
 -PHP Composer (2.7.2 Recommended)  
 -PHPMailer (Through Composer)  
 -SimpleXLSX (Through Composer)
