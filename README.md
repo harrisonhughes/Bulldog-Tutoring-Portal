@@ -38,7 +38,7 @@ but you may have specified an alternate location upon installation. Next, WHILE 
   
 $ git clone https://github.com/harrisonhughes/Bulldog-Tutoring-Portal.git  
   
-in the command line in order to download the application itself. By now, you should have a MAMP web development stack on your personal device, and the application files should be present in the htdocs folder of your MAMP environment. 
+in order to download the application itself to the correct location. By now, you should have a MAMP web development stack on your personal device, and the application files should be present in the htdocs folder of your MAMP environment. 
 
 ### Step 4 - Connect the Application to MAMP
 Now, in the MAMP dashboard (again, the small initial interface that displays server status), click on the MAMP heading at the top of the page, and select 'Preferences'. You should now be given the option to provide 'My favorite link', which must be selected from the htdocs folder. In this text box, write in  
