@@ -25,7 +25,7 @@ The easiest way to begin the process is to download a web development stack onto
 Navigate to https://www.mamp.info/en/downloads/ and begin downloading/installing the MAMP version specific to your platform. You will not need MAMP Pro. No special installation information is necessary - MAMP should be downloaded to the location C:\MAMP by default.
 
 ### Step 2 - Configure MAMP
-Navigate to the location MAMP is downloaded and launch the application. The MAMP dashboard (The initial small initial interface that displays server status) allows for further configuration using the bars at the top of the screen, including specification of the web server (we tested ours using Apache), PHP version (8.0+ recommended), and port information. 
+Navigate to the location MAMP is downloaded and launch the application. The MAMP dashboard (The initial small initial interface that displays server status) allows for further configuration using the bars at the top of the screen, including specification of the web server (we tested ours using Apache), PHP version (8.0+ recommended), and port information. This would be a good time to familiarize yourself with the MAMP dashboard, and to ensure that these values, while active by default, are accurate.
 
 ### Step 3 - Setting up the Environment
 The MAMP web development stack is configured to run files from the folder MAMP/htdocs - naturally, this is where the application needs to be. In the command line, navigate to the htdocs folder within your MAMP parent folder. By default this will be  
