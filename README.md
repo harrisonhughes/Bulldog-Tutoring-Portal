@@ -25,21 +25,21 @@ The easiest way to begin the process is to download a web development stack onto
 Navigate to https://www.mamp.info/en/downloads/ and begin downloading/installing the MAMP version specific to your platform. You will not need MAMP Pro. No special installation information is necessary - MAMP should be downloaded to the location C:\MAMP by default.
 
 ### Step 2 - Configure MAMP
-Navigate to the location MAMP is downloaded, and launch the application. The MAMP dashboard (The initial small initial interface that displays server status) allows for further configuration using the bars at the top of the screen, including specification of the web server (we tested ours using Apache), PHP version (8.0+ recommended), and port information. 
+Navigate to the location MAMP is downloaded and launch the application. The MAMP dashboard (The initial small initial interface that displays server status) allows for further configuration using the bars at the top of the screen, including specification of the web server (we tested ours using Apache), PHP version (8.0+ recommended), and port information. 
 
 ### Step 3 - Setting up the Environment
 The MAMP web development stack is configured to run files from the folder MAMP/htdocs - naturally, this is where the application needs to be. In the command line, navigate to the htdocs folder within your MAMP parent folder. By default this will be  
   
-cd C:\MAMP\htdocs  
+$ cd C:\MAMP\htdocs  
   
 but you may have specified an alternate location upon installation. Next, WHILE IN THE HTDOCS FOLDER, run the command  
   
-git clone https://github.com/harrisonhughes/Bulldog-Tutoring-Portal.git  
+$ git clone https://github.com/harrisonhughes/Bulldog-Tutoring-Portal.git  
   
 in the command line in order to download the application itself. By now, you should have a MAMP web development stack on your personal device, and the application files should be present in the htdocs folder of your MAMP environment. 
 
 ### Step 4 - Connect the Application to MAMP
-Now, in the MAMP dashboard (again, the small initial interface that displays server status), click on the MAMP heading at the top of the page, and select 'Preferences'. You shoul dnow be given the option to provide your 'My favorite link', which must be selected from the htdocs folder. In this text box, write in  
+Now, in the MAMP dashboard (again, the small initial interface that displays server status), click on the MAMP heading at the top of the page, and select 'Preferences'. You should now be given the option to provide 'My favorite link', which must be selected from the htdocs folder. In this text box, write in  
   
 Bulldog-Tutoring-Portal/index.php  
   
