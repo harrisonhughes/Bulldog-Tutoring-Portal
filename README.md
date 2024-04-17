@@ -75,10 +75,12 @@ Navigate to https://getcomposer.org/download/ to choose your desired route to in
 ### Step 2 - Use Composer to Download Dependencies
 In our git repository we have included the file 'composer.json' which delineates the necessary dependencies for the extended functionalities. All you need to do is navigate to the project folder from when you cloned the repository, and 'install' the dependencies. If your MAMP is in the default location, the commands will be  
 
-$ cd C:\MAMP\htdocs\Bulldog-Tutoring-Portal
+$ cd C:\MAMP\htdocs\Bulldog-Tutoring-Portal  
 $ composer install 
 
 This will create a 'vendor' folder in your root project directory that contains all of the extensions needed from the dependencies.  
+
+### Troubleshooting
 
 We recommend testing the functions and monitoring the error logs found in 'MAMP\logs\php_error.log' to troubleshoot the specific issues based on your installation. A common issue in our testing was specific to the SimpleXLSX extension that handles the Excel files when using MAMP. A fix for this is described below. 
 
