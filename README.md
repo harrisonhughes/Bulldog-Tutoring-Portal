@@ -8,14 +8,14 @@ The application is open-source and we encourage any and everyone interested in i
 ## Programs and Dependencies
 There are many moving pieces involved in the use and access of our program on a personal device if you wish to view the application in a development setting. We will provide a basic installation description for those unfamiliar with all of these pieces, but feel free to proceed as you would like.  
   
-Programs used:   
+Tech:   
 -Local Web Server (Apache Recommended)  
 -MySQL Database Environment (PHPMyAdmin recommended)  
 -PHP (8.0+ Recommended)  
 -JavaScript  
 -HTML/CSS  
   
-Dependencies for special features  
+Dependencies:  
 -PHP Composer (2.7.2 Recommended)  
 -PHPMailer (Through Composer)  
 -SimpleXLSX (Through Composer)
