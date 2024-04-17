@@ -34,7 +34,7 @@ The MAMP web development stack is configured to run files from the folder MAMP/h
   
 $ cd C:\MAMP\htdocs  
   
-but you may have specified an alternate location upon installation. Next, WHILE IN THE HTDOCS FOLDER, run the command  
+but you may have specified an alternate location upon installation. Next, WHILE IN THE HTDOCS REPOSITORY in the CLI, run the command  
   
 $ git clone https://github.com/harrisonhughes/Bulldog-Tutoring-Portal.git  
   
