@@ -72,6 +72,8 @@ As mentioned, Composer is a dependency manager for the programming language PHP.
 
 Navigate to https://getcomposer.org/download/ to choose your desired route to install Composer on your device. We recommend using the installer at the top of the page that provides a link for 'Composer-Setup.exe'. This should be a fairly painless process, as the installer manages most of the configuration including setting up the PATH variable. We used the most recent version of Composer in our testing, which is 2.7.2. so it would be best to select the same version.
 
+Note: During composer installation, it will ask you where your "command-line php installation" is. If you are using MAMP, as we suggest, this can be found, by default, at "C:\MAMP\bin\php". Select the php update MAMP is using (this can be found by going to MAMP dashboard > MAMP > Preferences > PHP > Version), and select the php.exe within that folder. 
+
 ### Step 2 - Use Composer to Download Dependencies
 In our git repository we have included the file 'composer.json' which delineates the necessary dependencies for the extended functionalities. All you need to do is navigate to the project folder from when you cloned the repository, and 'install' the dependencies. If your MAMP is in the default location, the commands will be  
 
@@ -79,6 +81,10 @@ $ cd C:\MAMP\htdocs\Bulldog-Tutoring-Portal
 $ composer install 
 
 This will create a 'vendor' folder in your root project directory that contains all of the extensions needed from the dependencies.  
+
+Note: You may get an error stating that "your lock file does not contain a compatible set of packages". If this happens, one of the suggestions it gives is to run composer while ignoring the requirements. Do this by running this install command instead:
+
+$ composer install --ignore-platform-req=ext-gd --ignore-platform-req=ext-fileinfo
 
 ### Troubleshooting
 
