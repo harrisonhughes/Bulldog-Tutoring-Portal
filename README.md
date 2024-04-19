@@ -70,9 +70,18 @@ Keep in mind that the mailing function of our project has been stripped of all i
 ### Step 1 - Download Composer
 As mentioned, Composer is a dependency manager for the programming language PHP. Therefore, these additional installation steps may only be done after you have downloaded MAMP, or have some other instance of PHP installed on your device.  
 
-Navigate to https://getcomposer.org/download/ to choose your desired route to install Composer on your device. We recommend using the installer at the top of the page that provides a link for 'Composer-Setup.exe'. This should be a fairly painless process, as the installer manages most of the configuration including setting up the PATH variable. We used the most recent version of Composer in our testing, which is 2.7.2. so it would be best to select the same version.
+Navigate to https://getcomposer.org/download/ to choose your desired route to install Composer on your device. 
+
+#### Windows
+We recommend using the installer at the top of the page that provides a link for 'Composer-Setup.exe'. This should be a fairly painless process, as the installer manages most of the configuration including setting up the PATH variable. We used the most recent version of Composer in our testing, which is 2.7.2. so it would be best to select the same version.
 
 Note: During composer installation, it will ask you where your "command-line php installation" is. If you are using MAMP, as we suggest, this can be found, by default, at "C:\MAMP\bin\php". Select the php update MAMP is using (this can be found by going to MAMP dashboard > MAMP > Preferences > PHP > Version), and select the php.exe within that folder. 
+#### MacOS
+MacOS does not have an installer, but can be downloaded using the 4 command line statements at the top of the page. If you downloaded php as part of MAMP, it may not be on your path and therefore these commands will not work. Steps to add php from MAMP onto your path are below:
+1. Verify the location of php - navigate to your MAMP folder. The executable version of php should be in /bin/php/<phpversion>/bin
+2. Open a terminal and edit the shell profile - for bash, the command for this is 'nano ~/.bash_profile'. For zsh, it is 'nano ~/.zshrc'
+3. Add the path to php - the statement should look something like 'export PATH="/Applications/MAMP/bin/php/php8.2.0/bin:$PATH"', change this so it matches the path to php in your system
+4. Save and exit out of the shell profile - this is done by pressing control + o, and then control + x. back on the terminal, run 'source ~/.zshrc', or 'source ~/.bash_profile' to apply changes 
 
 ### Step 2 - Use Composer to Download Dependencies
 In our git repository we have included the file 'composer.json' which delineates the necessary dependencies for the extended functionalities. All you need to do is navigate to the project folder from when you cloned the repository, and 'install' the dependencies. If your MAMP is in the default location, the commands will be  
@@ -80,7 +89,7 @@ In our git repository we have included the file 'composer.json' which delineates
 $ cd C:\MAMP\htdocs\Bulldog-Tutoring-Portal  
 $ composer install 
 
-This will create a 'vendor' folder in your root project directory that contains all of the extensions needed from the dependencies.  
+If get a 'command not found: composer' error, try typing 'composer.phar' instead. This will create a 'vendor' folder in your root project directory that contains all of the extensions needed from the dependencies.  
 
 Note: You may get an error stating that "your lock file does not contain a compatible set of packages". If this happens, one of the suggestions it gives is to run composer while ignoring the requirements. Do this by running this install command instead:
 
