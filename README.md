@@ -87,7 +87,7 @@ MacOS does not have an installer, but can be downloaded using the 4 command line
 In our git repository we have included the file 'composer.json' which delineates the necessary dependencies for the extended functionalities. All you need to do is navigate to the project folder from when you cloned the repository, and 'install' the dependencies. If your MAMP is in the default location, the commands will be  
 
 $ cd C:\MAMP\htdocs\Bulldog-Tutoring-Portal  
-$ composer install 
+$ composer install  
 
 If get a 'command not found: composer' error, try typing 'composer.phar' instead. This will create a 'vendor' folder in your root project directory that contains all of the extensions needed from the dependencies.  
 
@@ -103,8 +103,8 @@ Navigate to the location of the PHP configuration file for the PHP version that 
 
 The PHP configuration file (using PHP version 8.01 as an example) can be found through the path 'C:\MAMP\conf\php8.0.1' if you installed MAMP in the default location. Open this file in a text editor, and scroll down to the string of blocks that describes several extensions. For example, this could look like  
 
-extension=php_bz2.dll
-extension=php_gd.dll
+extension=php_bz2.dll  
+extension=php_gd.dll  
 ;extension=php_gd2.dll
 
 Now, you need to add the following line in order to fix the issue with file reading.  

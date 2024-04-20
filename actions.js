@@ -1,28 +1,41 @@
 //Display correct course codes in portal.html depending on subject selected
 function getCourseCodes(subject, courses){
-
-  //Get value of subject select box when changed
   var selectSubject = document.getElementById(subject);
-  var subject = selectSubject.options[selectSubject.selectedIndex].value;
-  
-  var ajax = new XMLHttpRequest();
+  var subjectValue = selectSubject ? selectSubject.options[selectSubject.selectedIndex].value : null;
 
+  if(!subjectValue) {
+    console.error("Subject value is empty or invalid.");
+    return;
+  }
+
+  var ajax = new XMLHttpRequest();
   ajax.onreadystatechange = function(){
     if(ajax.readyState == XMLHttpRequest.DONE){
-        if(ajax.status == 200){
+      if(ajax.status == 200){
         var selectCodes = document.getElementById(courses);
-        selectCodes.innerHTML = ajax.responseText;
+        if(selectCodes){
+          selectCodes.innerHTML = ajax.responseText;
+        } else {
+          console.error("Courses element is invalid or not found.");
+        }
       }
     }
   };
-  
-  ajax.open("GET", "?subject=" + subject, true);
+
+  ajax.open("GET", "?subject=" + subjectValue, true);
   ajax.send();
 }
 
+
 function addStudent(){
+  var emailList = document.getElementById("emailList");
+  if(!emailList) {
+    console.error("Email list element not found.");
+    return;
+  }
+
   var newStudent = document.createElement("div");
-  studentNumber = document.getElementById("emailList").children.length + 1;
+  var studentNumber = emailList.children.length + 1;
 
   newStudent.className = "studentEmail";
   newStudent.id = "student" + studentNumber;
@@ -48,8 +61,19 @@ function addStudent(){
 
 function removeStudent(removalIndex) {
   var studentDivBlock = document.getElementById("emailList");
+
+  if(!studentDivBlock) {
+    console.error("Email list element not found.");
+    return;
+  }
+
   var studentList = studentDivBlock.children;
   const numStudents = studentList.length;
+
+  if(removalIndex < 1 || removalIndex > numStudents) {
+    console.error("Invalid removal index.");
+    return;
+  }
 
   var saveInputs = [];
   for(var i = 1; i <= numStudents; i++){
@@ -77,6 +101,11 @@ function confirmMessage(message){
 
 function showWaiting(pBlock){
   var submittedBlock = document.getElementById(pBlock);
+  if(!submittedBlock) {
+    console.error("Block element not found.");
+    return;
+  }
+
   submittedBlock.innerHTML = "Executing...";
 }
 
