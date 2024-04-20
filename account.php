@@ -139,6 +139,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bulldog Tutoring Account</title>
     <link rel="stylesheet" href="styles.css"/>
     <script src="actions.js"></script>
@@ -160,6 +161,14 @@
       <?php
         echo "<h1 class='mainHeader'>{$uName}'s Account</h1>";
       ?>
+    <p id="recoverEmail" class="message">
+      <?php 
+      //Display error message if applicable
+      if(isset($_SESSION['message']['passReset'])){
+        echo $_SESSION['message']['passReset'];
+        unset($_SESSION['message']['passReset']);}
+      ?>
+    </p>
       <div>
         <div class="accountBubble">
             <h2>Personal Information</h2>
@@ -282,7 +291,9 @@
           </div>
         </div>
       </div>
-      <form action='account.php' method='post' class="deleteForm">
+    </main>
+    <footer>
+    <form action='account.php' method='post' class="deleteForm">
         <fieldset>
           <?php
 
@@ -294,8 +305,11 @@
           ?>
         </fieldset>
       </form>
-    </main>
-    <footer>
+      <form action='changePassword.php' method='post' id="changePassword">
+        <fieldset>
+            <button type='submit' name='changePassword'>Change Password</button>
+        </fieldset>
+      </form>
     </footer>
   </body>
 </html>

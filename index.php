@@ -21,6 +21,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bulldog Tutoring Home</title>
     <link rel="stylesheet" href="styles.css"/>
   </head>
@@ -44,15 +45,15 @@
       <div>
         <div class='homeBlock'>
           <h2>Professors</h2>
-          <p>Navigate to the "Account" page to begin referring students for tutoring opportunities. All of your courses should be loaded in and ready to go!</p>
+          <p>Navigate to the <span>Account</span> page to begin referring students for tutoring opportunities. All of your courses should be loaded in and ready to go!</p>
         </div>
         <div class='homeBlock'>
           <h2>Students</h2>
-          <p>Your "Account" page will display all of the current tutoring referrals that you have been approved for, as well as any of your active tutoring positions.</p>
+          <p>Your <span>Account</span> page will display all of the current tutoring referrals that you have been approved for, as well as any of your active tutoring positions.</p>
         </div>
         <div class='homeBlock'>
           <h2>Everyone</h2>
-          <p>Visit the "Portal" page to begin searching for tutors for each and every class here at Truman. Happy learning!</p>
+          <p>Visit the <span>Portal</span> page to begin searching for tutors for each and every class here at Truman. Happy learning!</p>
         </div>
       </div>
     </main>

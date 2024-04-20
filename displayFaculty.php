@@ -269,7 +269,14 @@
           </div>
         </fieldset>
       </form>
-      <form action='displayFaculty.php' method='post' class="deleteForm">
+      <form action='facultySearch.php' method='post' class="returnForm">
+        <fieldset>
+            <button type='submit' name='returnPage'>&laquo; Back</button>
+        </fieldset>
+      </form>
+    </main>
+    <footer class="displayFoot">
+    <form action='displayFaculty.php' method='post' class="deleteForm">
         <fieldset>
           <?php
           //Message to be shown in javascript alarm to act as a confirmation message
@@ -280,13 +287,6 @@
           ?>
         </fieldset>
       </form>
-      <form action='facultySearch.php' method='post' class="returnForm">
-        <fieldset>
-            <button type='submit' name='returnPage'>&laquo; Back</button>
-        </fieldset>
-      </form>
-    </main>
-    <footer>
     </footer>
   </body>
 </html>
