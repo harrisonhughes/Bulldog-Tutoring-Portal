@@ -50,7 +50,7 @@ thus pointing the stack directly at the application you just downloaded. Be sure
 Note: you will need both the 'Apache Server' and 'MySQL Server' to turn green in order to proceed, but the 'Cloud' indicator need not be active. 
 
 ### Step 5 - Ensure Access to the Application from MAMP
-The final step is to configure the database to allow the program to have its legs. Click the 'Open Webstart Page' button the MAMP Dashboard, which will take you to your local server if the web and database servers were active. If, at the top navigation bar, there is no 'My Favorite Link' tab, it may be best to close the initial MAMP dashboard, and retry the process of adding the 'favorite link' entry to the corresponding tab in 'Preferences' before beginning the process of starting servers and opening the webstart page.  
+The final step is to configure the database to allow the program to have its legs. Click the 'Open Webstart Page' button the MAMP Dashboard, which will take you to your local server if the web and database servers are active. If, at the top navigation bar, there is no 'My Favorite Link' tab, it may be best to close the initial MAMP dashboard, and retry the process of adding the 'favorite link' entry to the corresponding tab in 'Preferences' before beginning the process of starting servers and opening the webstart page.  
   
 If this still does not provide you with the option to click on your 'Favorite Link', ensure that you have correctly cloned the git repository in the htdocs folder. Once the 'My Favorite Link' pops up, you are officially able to access the application from your local server, and you are one step away from completing the setup.
 
@@ -89,7 +89,7 @@ In our git repository we have included the file 'composer.json' which delineates
 $ cd C:\MAMP\htdocs\Bulldog-Tutoring-Portal  
 $ composer install  
 
-If get a 'command not found: composer' error, try typing 'composer.phar' instead. This will create a 'vendor' folder in your root project directory that contains all of the extensions needed from the dependencies.  
+If you get a 'command not found: composer' error, try typing 'composer.phar' instead. This will create a 'vendor' folder in your root project directory that contains all of the extensions needed from the dependencies.  
 
 Note: You may get an error stating that "your lock file does not contain a compatible set of packages". If this happens, one of the suggestions it gives is to run composer while ignoring the requirements. Do this by running this install command instead:
 
