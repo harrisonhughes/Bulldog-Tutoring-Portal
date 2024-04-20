@@ -78,16 +78,16 @@
       <div id='adminBlocks'>
         <div>
           <h2>Accounts</h2>
-          <p>Manage and interact with all accounts in the "Student Accounts" and Professor Accounts" pages. You can search for a specific account, or sort through broad categories of accounts by entering as much or
+          <p>Manage and interact with all accounts in the <span>Student Accounts</span> and <span>Professor Accounts</span> pages. You can search for a specific account, or sort through broad categories of accounts by entering as much or
             as little information as desired, and clicking the title of the topic of interest to arrange by that topic.</p>
         </div>
         <div>
           <h2>Courses</h2>
-          <p>Search by a course information to view relevant tutoring information about any and all classes on the "Search by Course" page. Navigate to the "Add a Course" page to manually enter a new course into the system.</p>
+          <p>Search by a course information to view relevant tutoring information about any and all classes on the <span>Search by Course</span> page. Navigate to the <span>Add a Course</span> page to manually enter a new course into the system.</p>
         </div>
         <div>
             <h2>Process</h2>
-            <p>Visit the "Transition Semesters" page to begin the process of updating the tutoring system. This should be done near the end of every semester, and relies on a course/professor file being loaded into the 
+            <p>Visit the <span>Transition Semesters</span> page to begin the process of updating the tutoring system. This should be done near the end of every semester, and relies on a course/professor file being loaded into the 
               system to allow the professor recommendation process to begin.
             </p>
         </div>

@@ -27,7 +27,6 @@
 
   //Constants for default professor account creation and account type specification
   $PROFESSOR_ACCOUNT = 2;
-  //$DEFAULT_PROF_PASSWORD = getenv('DEFAULT_PROF');
   $DEFAULT_PROF_PASSWORD = "dajdbjsabdadbad89312";
   $URL = "https://bulldogtutoringportal.com/login.php";
 

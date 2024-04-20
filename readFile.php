@@ -30,7 +30,6 @@
 
   //Define constants for access control, professor account creation, current directory, and excel file format
   $PROFESSOR_ACCOUNT = 2;
-  //$DEFAULT_PROF_PASSWORD = getenv('DEFAULT_PROF');
   $DEFAULT_PROF_PASSWORD = "dajdbjsabdadbad89312";
   $FILE_DIRECTORY = __DIR__  . "/courseLists/";
   $EXCEL_FILE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
@@ -139,12 +138,31 @@ try{
             $result = $pdo->prepare($sql);
             $result->execute([$email, $courseId]);
 
-            //Create a professor account using a default passcode if no account exists
-            $sqlValues = [$email, password_hash($DEFAULT_PROF_PASSWORD, PASSWORD_DEFAULT), $PROFESSOR_ACCOUNT, $firstname, $lastname];
-            $valuePlaceholders = rtrim(str_repeat('?,', count($sqlValues)), ',');
-            $sql = "INSERT IGNORE INTO accounts (email, hashed_password, account_type, firstname, lastname) VALUES ({$valuePlaceholders})";
+            //Check if professor account exists using sql injection attack prevention steps
+            $sql = "SELECT account_type FROM accounts WHERE email = ?";
             $result = $pdo->prepare($sql);
-            $result->execute($sqlValues);
+            $result->execute([$email]);
+            $accountType = $result->fetch();
+
+            //Account does not exist in database
+            if(empty($accountType)){
+
+              //Create a professor account using a default passcode if no account exists
+              $sqlValues = [$email, password_hash($DEFAULT_PROF_PASSWORD, PASSWORD_DEFAULT), $PROFESSOR_ACCOUNT, $firstname, $lastname];
+              $valuePlaceholders = rtrim(str_repeat('?,', count($sqlValues)), ',');
+              $sql = "INSERT INTO accounts (email, hashed_password, account_type, firstname, lastname) VALUES ({$valuePlaceholders})";
+              $result = $pdo->prepare($sql);
+              $result->execute($sqlValues);
+            }
+
+            //Account is already created, but does not have the necessary professor access. Give it to them
+            else if($accountType != $PROFESSOR_ACCOUNT){
+
+              //Update account to be that of a professor account
+              $sql = "UPDATE accounts SET account_type = '{$PROFESSOR_ACCOUNT}' WHERE email = '{$email}'";
+              $result = $pdo->prepare($sql);
+              $result->execute();
+            }
           }
           else{
             break;
