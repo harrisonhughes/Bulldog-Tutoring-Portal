@@ -51,6 +51,22 @@
     if(!isset($_SESSION['currentCourse']) && !empty($courses)){
       $_SESSION['currentCourse'] = $courses[0];
     }
+
+    //Account deleted, remove from database, route user to login page where they are automatically logged out
+    if(isset($_POST['deleteAccount'])){ 
+      $email = test_input($_SESSION['user']);
+
+      //Prepare and execute mysql query to delete record from table and prevent sql injection attacks
+      $sql = "DELETE FROM accounts WHERE email = ?";
+      $result = $pdo->prepare($sql);
+      $result->execute([$email]);
+
+      //Create feedback message and route user to login page
+      session_unset();
+      $_SESSION['message']['login'] = "Account and all linked information has been deleted.";
+      header("Location: login.php");
+      exit();
+    }
   }
 
   //Unable to create connection with database
@@ -84,6 +100,14 @@
     </header>
     <main id="referencePage">
     <h1 class="mainHeader">Faculty Referral Interface</h1>
+    <p id="recoverEmail" class="message">
+      <?php 
+      //Display error message if applicable
+      if(isset($_SESSION['message']['passReset'])){
+        echo $_SESSION['message']['passReset'];
+        unset($_SESSION['message']['passReset']);}
+      ?>
+    </p>
       <div>
         <div class="accountBubble">
           <div>
@@ -337,6 +361,23 @@
       </div>
     </main>
     <footer>
+    <form action='reference.php' method='post' class="deleteForm">
+      <fieldset>
+        <?php
+
+        //Message to be shown in javascript alarm to act as a confirmation message
+        $confirmMessage = "\"Deleting your account will result in all of your information being removed from the database, and is not reversible. Are you sure you want to proceed?\"";
+
+        //Delete account button
+        echo "<button type='submit' name='deleteAccount' onclick='return confirmMessage({$confirmMessage});'>DELETE ACCOUNT</button>";
+        ?>
+      </fieldset>
+    </form>
+    <form action='changePassword.php' method='post' id="changePassword">
+        <fieldset>
+            <button type='submit' name='changePassword'>Change Password</button>
+        </fieldset>
+      </form>
     </footer>
   </body>
 </html>

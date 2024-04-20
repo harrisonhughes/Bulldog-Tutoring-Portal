@@ -57,8 +57,7 @@
             
             //Build all email elements
             $emailBody = $user['firstname'] . ",<br>A request has been made to reset your account password on the Bulldog Tutoring Portal website. Your recovery code is: <b>{$randomPassword}</b><br><br>
-            Copy this code and paste it into the account recovery page, along with your desired new password, to reset your account.
-            <br><br><b>The Bulldog Tutoring Portal</b><br><em>Truman State University<br>BulldogTutoring@outlook.com</em>";
+            Copy this code and paste it into the account recovery page, along with your desired new password, to reset your account.";
     
             $emailHeader = "Temporary Portal Password";
 
@@ -130,8 +129,10 @@
               $result->execute([$hashedPassword, $email]);
 
               //Provide feedback to user
-              $_SESSION['error']['recover'] = "Passwords successfully reset.";
+              $_SESSION['message']['login'] = "Password successfully reset.";
               unset($_SESSION['recoveryEmail']);
+
+              header("Location: login.php");
             }
 
             //Recovery code entered does not match user passcode
@@ -159,6 +160,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bulldog Tutoring Portal</title>
     <link rel="stylesheet" href="styles.css"/>
   </head>

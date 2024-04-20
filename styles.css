@@ -7,6 +7,7 @@
 /**Styling main html containers*/
 html {
   height: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -73,6 +74,7 @@ header nav span {
   font-size: 13pt;
 }
 
+
 header nav a {
   font-weight: bold;
   text-decoration: none;
@@ -87,12 +89,58 @@ header h1 {
   margin-left: 15px;
 }
 
+@media only screen and (max-width: 767px) {
+  header{
+    font-family: Noto Sans, sans-serif; /* Use default sans-serif font on phones */
+  }
+
+header div span {
+  display: none;
+}
+
+header nav {
+  margin-right: 20px;
+}
+
+
+header img {
+  margin-left: 0px;
+}
+
+
+header nav span {
+  height: 80px;
+  padding-inline: 15px;
+  font-size: 10pt;
+}
+
+
+header nav a {
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
+}
+
+header nav a:hover {
+  color: #00a8e2;
+}
+}
+
+
 footer {
   height: 80px;
   width: 100%;
   flex-shrink: 0;
   background-color: #510c76;
   border-top: 3px solid white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.displayFoot{
+  justify-content: center;
 }
 
 /**Styling global clases*/
@@ -121,6 +169,15 @@ footer {
   font-size: 35pt;
   font-weight: bold;
   color: #510c76;
+  text-align: center;
+}
+
+@media only screen and (max-width: 767px) {
+  .mainHeader{
+    font-family: Noto Sans, sans-serif;
+    font-size: 16pt;
+    text-align: center;
+  }
 }
 
 .blueButton {
@@ -200,9 +257,9 @@ main nav {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  overflow-x: hidden;
   font-family: "Hurme Geometric Sans 1 Bold", sans-serif;
 }
+
 
 #homePage h1 {
   font-size: 80pt;
@@ -233,6 +290,32 @@ main nav {
   color: #510c76;
   text-align: justify;
   font-size: 13pt;
+  font-weight: bold;
+}
+
+#homePage span{
+  color: #00a8e2;
+}
+@media only screen and (max-width: 767px) {
+  /* Override font styles for phone screens */
+  #homePage{
+    font-family: Noto Sans, sans-serif; /* Use default sans-serif font on phones */
+  }
+  #homePage h1{
+    font-size: 32pt;
+    margin-right:8px;
+  }
+  .homeBlock {
+    max-width: 160px;
+    padding: 5px;
+    margin-block: 5px;
+  }
+  #homePage h2 {
+    font-size: 15pt;
+  }
+  #homePage p {
+    font-size: 8pt;
+  }
 }
 
 @keyframes flyInFromLeft {
@@ -413,6 +496,10 @@ main nav {
   cursor: pointer;
 }
 
+#portal table a:hover{
+  color: #00a8e2;
+}
+
 #portal fieldset > div {
   display: flex;
   flex-direction: row;
@@ -430,6 +517,10 @@ main nav {
 
 #portal h1 {
   margin-bottom: 10px;
+}
+
+#portal .resultHeader{
+  text-align: center;
 }
 
 #portal form {
@@ -470,6 +561,63 @@ main nav {
   padding-right: 0px;
 }
 
+@media only screen and (max-width: 767px) {
+  #portal aside {
+    display: none;
+  }
+
+  #portal aside a {
+    max-width: 100%;
+    white-space: normal;
+    word-wrap: break-word;
+  }
+
+  #portal fieldset>div:first-child{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  #portal aside h2:last-of-type {
+    margin-top: 25px;
+  }
+
+  #portal aside h2 {
+    font-size: 8pt;
+    margin-bottom: 6px;
+    padding-inline: 3px;
+  }
+  
+  #portal aside div div a {
+    font-size: 7pt;
+    margin-block: 6px;
+    padding-inline: 15px;
+    text-align: center;
+  }
+  
+  #portalButtons > * {
+    margin: 8px;
+    padding: 5px;
+    font-size: 8pt;
+  }
+  
+  #scholTutor {
+    transform: scale(1);
+    margin-right: 4px;
+  }
+
+  #portal label{
+    font-size: 8pt;
+    white-space: nowrap;
+    margin-block: 3px;
+  }
+
+  #portal select, #portal options{
+    font-size: 8pt;
+  }
+}
 
 
 
@@ -484,6 +632,7 @@ main nav {
 
 #accountPage h1 {
   color: #510c76;
+  margin-bottom: 10px;
 }
 
 #accountPage h1,
@@ -491,7 +640,7 @@ main nav {
   text-align: center;
 }
 
-#accountPage h2 {
+#accountPage div h2 {
   margin-bottom: 5px;
   border-top: 2px solid white;
   border-bottom: 2px solid white;
@@ -517,6 +666,7 @@ main nav {
   justify-content: center;
   margin-bottom: 15px;
   flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 .accountBubble {
@@ -531,8 +681,9 @@ main nav {
   background-image: linear-gradient(#510c76, #7a3a9d);
 }
 
-#accountPage p {
+#accountPage div p {
   color: white;
+  text-align: center;
 }
 
 #accountPage a {
@@ -582,14 +733,12 @@ main nav {
   color: red;
 }
 
-.deleteForm fieldset {
+.deleteForm fieldset, #changePassword fieldset{
   border: none;
 }
 
-.deleteForm button {
-  background-color: white;
-  outline: 2px solid red;
-  color: red;
+.deleteForm button, #changePassword button{
+  background-color: transparent;
   border-radius: 2px;
   border: none;
   font-size: 15pt;
@@ -598,9 +747,35 @@ main nav {
   cursor: pointer;
 }
 
+.deleteForm button{
+  outline: 2px solid red;
+  color: red;
+}
+
+#changePassword button{
+  outline: 2px solid #00a8e2;
+  color: #00a8e2;
+}
+
 .deleteForm button:hover {
   background-color: red;
   color: white;
+}
+
+#changePassword button:hover {
+  background-color: #00a8e2;
+  color: white;
+}
+
+@media only screen and (max-width: 767px) {
+  #accountPage ul {
+    font-size: 9pt;
+    text-align: center;
+  }
+
+  .deleteForm button, #changePassword button{
+    font-size: 9pt;
+  }
 }
 
 /**Styling Professor Reference Page*/
@@ -610,6 +785,11 @@ main nav {
   justify-content: center;
   flex-wrap: wrap;
   color: white;
+  margin-top: 10px;
+}
+
+#referencePage h1{
+  margin-bottom: 10px;
 }
 
 #referencePage h2 {
@@ -755,6 +935,11 @@ main nav {
 /**Admin home page styling*/
 #adminHome h1 {
   margin-bottom: 10px;
+  text-align: center;
+}
+
+#adminBlocks span{
+  color:#00a8e2;
 }
 
 #adminBlocks {
@@ -770,6 +955,7 @@ main nav {
   flex-direction: column;
   align-items: center;
   margin-inline: 20px;
+  margin-bottom: 20px;
   color: white;
   max-width: 350px;
   background-image: linear-gradient(#510c76, #7a3a9d);
@@ -916,11 +1102,42 @@ fieldset select {
   font-weight: bold;
   font-size: 15pt;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .searchTable tfoot button:hover {
   color: #00a8e2;
 }
+
+@media only screen and (max-width: 767px) {
+  .searchTable {
+    margin-block: 10px;
+  }
+
+  .resultHeader{
+    font-size: 13pt;
+  }
+  
+  .searchTable thead input,
+  .searchTable thead th,
+  .searchTable td {
+    font-size: 9pt;
+  }
+  .searchTable td,
+  .searchTable th {
+    padding: 3px 5px;
+  }
+  
+  .searchTable tfoot td {
+    height: 25px;
+    font-size: 10pt;
+  }
+  
+  .searchTable tfoot button {
+    font-size: 10pt;
+  }
+}
+
 
 /**Admin display page styling*/
 .display h1 {
