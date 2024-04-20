@@ -1,6 +1,4 @@
 <?php
-  require 'vendor/autoload.php'; // For mailing
-
   //Connect to tutoring database: must be executed within try block
   function connect(){
     define('DBHOST', 'localhost');
@@ -37,6 +35,8 @@
   //Mail operations adapted from: https://alexwebdevelop.com/phpmailer-tutorial/#:~:text=HOW%20TO%20USE%20THE%20PHPMAILER%20CLASS%201%20Set,an%20attachment%20from%20binary%20data%20...%20More%20items
   function sendEmail($address, $name, $header, $body){
     /**
+    require 'vendor/autoload.php'; // For mailing
+      
     //Setup SMTP variable
     $mail = new PHPMailer\PHPMailer\PHPMailer();
     $mail->isSMTP();
