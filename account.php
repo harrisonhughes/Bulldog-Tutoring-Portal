@@ -230,7 +230,7 @@
                   <?php
                   //No active tutoring courses
                   if(empty($activeCourses)){
-                    echo "<tr><td colspan='2'>You have no active obligations</td></tr>";
+                    echo "<tr><td colspan='2'>You have no active courses</td></tr>";
                   }
 
                   //Loop and display all active tutoring courses with button to give option to remove

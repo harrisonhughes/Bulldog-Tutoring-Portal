@@ -136,7 +136,7 @@
       $openReferrals = $result->fetchAll();
 
       //Obtain all individual subjects from database
-      $sql = "SELECT DISTINCT subject FROM courses";
+      $sql = "SELECT DISTINCT subject FROM courses ORDER BY subject";
       $result = $pdo->prepare($sql);
       $result->execute();
       $courselist = $result->fetchAll();

@@ -1,7 +1,10 @@
 <?php
 session_start();
+
 //Save relevant login messages before ending session
-$messages = $_SESSION['message'];
+if(!empty($_SESSION['messages'])){
+  $messages = $_SESSION['message'];
+}
 
 //Login page turns into logout page when user is logged in: log out user upon visting this page
 if(isset($_SESSION['user'])){
@@ -9,7 +12,12 @@ if(isset($_SESSION['user'])){
 }
 
 unset($_SESSION['recoveryEmail']);
-$_SESSION['message'] = $messages;
+
+//Reload initial messages into correct location
+if(!empty($messages)){
+  $_SESSION['message'] = $messages;
+}
+
 ?>
 <!DOCTYPE html>
 <html>

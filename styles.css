@@ -49,7 +49,7 @@ header > div:first-child {
 
 header div span {
   font-weight: bold;
-  font-size: 20pt;
+  font-size: 17pt;
 }
 
 header img {
@@ -129,7 +129,6 @@ header nav a:hover {
 
 footer {
   height: 80px;
-  width: 100%;
   flex-shrink: 0;
   background-color: #510c76;
   border-top: 3px solid white;
@@ -137,6 +136,7 @@ footer {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  padding-inline: 20px;
 }
 
 .displayFoot{
@@ -177,6 +177,10 @@ footer {
     font-family: Noto Sans, sans-serif;
     font-size: 16pt;
     text-align: center;
+  }
+
+  footer{
+    padding-inline: 5px;
   }
 }
 
@@ -507,6 +511,14 @@ main nav {
   justify-content: center;
 }
 
+#portal fieldset>div:first-child{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 #portal > div {
   width: 100%;
   display: flex;
@@ -556,9 +568,17 @@ main nav {
   margin-right: 4px;
 }
 
+.features{
+  margin-top: 10px;
+}
+
 .features label {
   padding-left: 0px;
   padding-right: 0px;
+}
+
+#portal label{
+  white-space: nowrap;
 }
 
 @media only screen and (max-width: 767px) {
@@ -570,14 +590,6 @@ main nav {
     max-width: 100%;
     white-space: normal;
     word-wrap: break-word;
-  }
-
-  #portal fieldset>div:first-child{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: center;
   }
   
   #portal aside h2:last-of-type {
@@ -610,11 +622,10 @@ main nav {
 
   #portal label{
     font-size: 8pt;
-    white-space: nowrap;
     margin-block: 3px;
   }
 
-  #portal select, #portal options{
+  #portal select, #portal option{
     font-size: 8pt;
   }
 }
@@ -938,8 +949,13 @@ main nav {
   text-align: center;
 }
 
-#adminBlocks span{
+#adminBlocks a{
   color:#00a8e2;
+  text-decoration: none;
+}
+
+#adminBlocks a:hover{
+  border-bottom: 1pt solid #00a8e2;
 }
 
 #adminBlocks {

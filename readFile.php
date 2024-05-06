@@ -30,6 +30,7 @@
 
   //Define constants for access control, professor account creation, current directory, and excel file format
   $PROFESSOR_ACCOUNT = 2;
+  //$DEFAULT_PROF_PASSWORD = getenv('DEFAULT_PROF');
   $DEFAULT_PROF_PASSWORD = "dajdbjsabdadbad89312";
   $FILE_DIRECTORY = __DIR__  . "/courseLists/";
   $EXCEL_FILE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
@@ -74,40 +75,150 @@ try{
     //Ensure we can access the excel sheet
     if($xlsx = SimpleXLSX::parse($xlsxFile)){
 
-      //Obtain term row both as an integer and as a string
-      $term = $xlsx->rows()[1][3];
-      $strTerm = (string)$term;
+      //Define constants to ensure the excel sheet is formatted properly
+      $EXCEL_ROW_LENGTH = 9; //Excel row length in proerly formatted document
+      $TERM_CODE_LENGTH = 6; //Term Code length for a semester code
+      $TERM_CODE_FIRSTCHAR = '2'; //Ensure 6 digit value begins with a '2' for 2000
 
-      //If term code is not valid, we know the excel sheet is not of a valid type
-      if(!$term || strlen($strTerm) != 6 || $strTerm[0] != '2'){
+      //Switch variable to ensure all file aspects are up to code
+      $validFile = true;
+      
+      //Ensure first row is filled in 
+      if(!empty($xlsx->rows()[0])){
+
+        //Get first row and calculate length to ensure excel file is of correct format
+        $firstRow = $xlsx->rows()[0];
+        $excelRowLength = count($firstRow);
+
+        //Do not allow submission if format is wrong
+        if($excelRowLength != $EXCEL_ROW_LENGTH){
+          $validFile = false;
+        }
+      }
+
+      //Do not allow submission if form is empty
+      else{
+        $validFile = false;
+      }
+
+      //Check the first professor row and ensure it has a term code
+      if(!empty($xlsx->rows()[1][3])){
+
+        //Capture the term code and ensure it is of the right format to indicate a semester
+        $termCode = (string)$xlsx->rows()[1][3];
+        if(strlen($termCode) != $TERM_CODE_LENGTH || $termCode[0] != $TERM_CODE_FIRSTCHAR){
+
+          //Do not allow submission if term code is not formatted correctly
+          $validFile = false;
+        }
+
+        //Otherwise if the termcode has already been seen on an input file, the user has mistakenly uploaded an old list
+        else{
+
+          //Build file location based on term code, should conform to eventual filename pattern
+          $currentFilepath = $FILE_DIRECTORY . $termCode . "CourseList.xlsx";
+
+          //If the file exists, you have mistakenly uploaded an old courselist
+          if(file_exists($currentFilepath)){
+
+            //Store error message and prevent submission
+            $_SESSION['errors']['semester'] = "The system has already received a courselist for this semester.";
+            header("Location: newSemester.php");
+            exit(); 
+          }
+        }
+      }
+
+      //Prevent submission if first row is empty
+      else{
+        $validFile = false;
+      }
+
+      //Prevent submission and provide error messages if the file is not of the correct format 
+      if(!$validFile){
+
+        //Store error message and prevent submission
         $_SESSION['errors']['semester'] = "Excel file is in an incorrect format. Ensure proper column names and output.";
         header("Location: newSemester.php");
         exit(); 
       }
 
-      //Otherwise if the termcode has already been seen on an input file, the user has mistakenly uploaded an old list
-      else{
-        $currentFilepath = $FILE_DIRECTORY . $term . "CourseList.xlsx";
-        if(file_exists($currentFilepath)){
-          $_SESSION['errors']['semester'] = "The system has already received a courselist for this semester.";
-          header("Location: newSemester.php");
-          exit(); 
-        }
-      }
+      //Set excel sheet cell constants for individual rows
+      $TRUMAN_EMAIL = "@truman.edu"; //Only allow this email format
+      $VALID_NAME = '/^[a-zA-Z\'\- .]+$/'; //Name must be of a valid configuration
+      $MAX_LENGTH = 50; //Max length of name, password, and email
+      $MIN_LENGTH = 6; //Min length of password
+      $MIN_COURSE_LENGTH = 2; //Min of subject and course code specifications
+      $MAX_COURSE_LENGTH = 5; //Max of subject and course code specifications
 
       //Loop through each row 
       foreach ($xlsx->rows() as $row) {
+        
+        //Initialize row format boolean variable switch
+        $validRow = true;
 
-        //Retrieve all data points whlie preventin injection attacks
-        $firstname = test_input($row[1]);
-        $lastname = test_input($row[0]);
-        $email = test_input($row[2]);
-        $subject = test_input($row[5]);
-        $number = test_input($row[6]);
+        //Check if all necessary cells are filled with data, otherwise flip the switch
+        if(empty($row[0]) || empty($row[0]) || empty($row[1]) || empty($row[2]) || empty($row[5]) || empty($row[6])){
+          $validRow = false;
+        }
+        else{
 
-        //Make sure the row is not the first row, and that the course number is an integer (not a graduate or lab course)
-        if((string)(int)$number === $number && $email != "Email"){
-          //If the row still has data in it
+          //Ensure first name cell is of correct format
+          $firstname = test_input($row[1]);
+          if(!preg_match($VALID_NAME, $firstname)){//Name must be of a valid name format
+            $validRow = false;
+          }
+          else if(strlen($firstname) > $MAX_LENGTH){
+            $validRow = false;
+          }
+  
+          //Ensure last name cell is of correct format
+          $lastname = test_input($row[0]);
+          if(!preg_match($VALID_NAME, $lastname)){ //Name must be of a valid name format
+            $validRow = false;
+          }
+          else if(strlen($lastname) > $MAX_LENGTH){
+            $validRow = false;
+          }
+
+          //Ensure email cell is of correct format
+          $email = test_input($row[2]);
+          if(substr($email, -11) != $TRUMAN_EMAIL){ //Must end in @truman.edu
+            $validRow = false;
+          }
+          else if(strlen($email) > $MAX_LENGTH){
+            $validRow = false;
+          }
+
+          //Ensure subject cell is of correct format
+          $subject = test_input($row[5]);
+          if($subject !== strtoupper($subject)){ //Ensure subject is of uppercase type
+            $validRow = false;
+          }
+          else if(strLen($subject) > $MAX_COURSE_LENGTH){
+            $validRow = false;
+          }
+          else if(strLen($subject) < $MIN_COURSE_LENGTH){
+            $validRow = false;
+          }
+
+          //Ensure course code cell is of correct format
+          $number = test_input($row[6]);
+          if(!ctype_digit($number)){ //Prevent non-numerical course codes, including graduate and lab sections
+            $validRow = false;
+          }
+          else if(strLen($number) > $MAX_COURSE_LENGTH){
+            $validRow = false;
+          }
+          else if(strLen($number) < $MIN_COURSE_LENGTH){
+            $validRow = false;
+          }
+        }
+
+        //If row conforms to specifications above, store it in the database accurately
+        if($validRow){
+
+          //Double check to ensure our values are active (redundant checking)
           if($email && $subject && $number && $firstname && $lastname){
 
             //Select course id given the current row using sql injection attack prevention steps
@@ -171,7 +282,7 @@ try{
       }
 
       //Create new filepath and store file for records
-      $newFilepath = $FILE_DIRECTORY . $term . "CourseList.xlsx";
+      $newFilepath = $FILE_DIRECTORY . $termCode . "CourseList.xlsx";
       if(!move_uploaded_file($filepath, $newFilepath)){
         $_SESSION['errors']['semester'] = "Error storing file on server.";
         header("Location: newSemester.php");

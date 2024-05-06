@@ -3,6 +3,8 @@
   session_start();
   $TIME_OUT = 60 * 60 * 2;
   $ADMIN_CODE = 3;
+  $MIN_COURSE_LENGTH = 2; //Min of subject and course code specifications
+  $MAX_COURSE_LENGTH = 5; //MAx of subject and course code specifications
 
   //If user is not set, access credentials are not set, last activity is not set, or last activity is beyond timeout length
   if(!isset($_SESSION['user']) || !isset($_SESSION['credentials']) || !isset($_SESSION['lastActivity']) || time() - $_SESSION['lastActivity'] > $TIME_OUT){
@@ -61,28 +63,28 @@
         }
 
         //Ensure subject is no more than 5 characters
-        if(strLen($subject) > 5){
+        if(strLen($subject) > $MAX_COURSE_LENGTH){
           $_SESSION['errors']['addCourse'] = "Subject cannot be longer than 5 characters";
           header("Location: addCourse.php");
           exit();
         }
 
         //Ensure subject is no less than 2 characters 
-        if(strLen($subject) < 2){
+        if(strLen($subject) < $MIN_COURSE_LENGTH){
           $_SESSION['errors']['addCourse'] = "Subject cannot be shorter than 2 characters";
           header("Location: addCourse.php");
           exit();
         }
 
         //Ensure course code is no more than 5 characters
-        if(strLen($courseCode) > 5){
+        if(strLen($courseCode) > $MAX_COURSE_LENGTH){
           $_SESSION['errors']['addCourse'] = "Course code cannot be longer than 5 digits";
           header("Location: addCourse.php");
           exit();
         }
 
         //Ensure course code is no less than 2 characters
-        if(strLen($courseCode) < 2){
+        if(strLen($courseCode) < $MIN_COURSE_LENGTH){
           $_SESSION['errors']['addCourse'] = "Course code cannot be shorter than 2 digits";
           header("Location: addCourse.php");
           exit();

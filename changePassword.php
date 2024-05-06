@@ -117,7 +117,10 @@
         <span>The Bulldog Tutoring Portal</span>
       </div>
       <nav>
-          <a href="login.php"><span>Login</span></a>
+          <a href="index.php"><span>Home</span></a>
+          <a href="portal.php"><span>Portal</span></a>
+          <a href="account.php"><span>Account</span></a>
+          <a href="login.php"><span>Logout</span></a>
       </nav>
     </header>
     <main class = "credentialPage">
