@@ -42,7 +42,9 @@ CREATE TABLE referred_tutors(
 CREATE TABLE course_professors(
     email VARCHAR(50) NOT NULL,
     course_id INT(3) NOT NULL,
+    completed TIMESTAMP DEFAULT "2000-01-01 00:00:00",
     PRIMARY KEY (email, course_id),
+    FOREIGN KEY (email) REFERENCES accounts(email) ON DELETE CASCADE,
     FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
 );
 

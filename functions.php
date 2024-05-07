@@ -1,12 +1,6 @@
 <?php
   //Connect to tutoring database: must be executed within try block
   function connect(){
-    /**
-    *define('DBHOST', getenv('DB_HOST'));
-    *define('DBNAME', getenv('DB_NAME'));
-    *define('DBUSER', getenv('DB_USERNAME'));
-    *define('DBPASS', getenv('DB_PASSWORD'));
-     */
     define('DBHOST', 'localhost');
     define('DBNAME', 'tutoring_portal');
     define('DBUSER', 'root');
@@ -39,6 +33,8 @@
 
   //Mail through our outlook account given all relevant mail parameters defined by user
   //Mail operations adapted from: https://alexwebdevelop.com/phpmailer-tutorial/#:~:text=HOW%20TO%20USE%20THE%20PHPMAILER%20CLASS%201%20Set,an%20attachment%20from%20binary%20data%20...%20More%20items
+
+  //Mail function has been stripped of all official website information for privacy. Custom fields must be entered to test this feature
   function sendEmail($address, $name, $header, $body){
     //Require mailing dependency
     require 'vendor/autoload.php';
@@ -71,7 +67,7 @@
     $mail->isSMTP();
     
     //Provide host name for Outlook Email Server
-    $mail->Host = 'smtp.office365.com';
+    //$mail->Host = '';
     
     //Port number specification and Security/Authorization designations
     $mail->Port = 587;
@@ -80,15 +76,15 @@
     $mail->SMTPDebug = 0;
     
     //Outlook Email Credentials
-    $mail->Username = "bulldogtutoring@outlook.com";
-    $mail->Password = "#7portal&&21swe!";
+    //$mail->Username = "";
+    //$mail->Password = "";
     
     // Set who the message is to be sent from
-    $mail->setFrom('bulldogtutoring@outlook.com', 'Bulldog Tutoring Portal');
+    //$mail->setFrom('', '');
     $mail->addAddress($address, $name);
 
     //Format signature at bottom of page
-    $signature = "<br><br><b>The Bulldog Tutoring Portal</b><br><em>BulldogTutoring@outlook.com</em>";
+    //$signature = "";
     $fullBody = "<p>{$body}{$signature}</p>"; 
     
     //Format email body and add opt out footer

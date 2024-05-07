@@ -175,8 +175,13 @@ footer {
 @media only screen and (max-width: 767px) {
   .mainHeader{
     font-family: Noto Sans, sans-serif;
-    font-size: 16pt;
+    font-size: 18pt;
     text-align: center;
+    font-weight: 1000;
+  }
+
+  .error, .message{
+    font-size: 10pt;
   }
 
   footer{
@@ -308,6 +313,7 @@ main nav {
   #homePage h1{
     font-size: 32pt;
     margin-right:8px;
+    font-weight: 1000;
   }
   .homeBlock {
     max-width: 160px;
@@ -316,9 +322,12 @@ main nav {
   }
   #homePage h2 {
     font-size: 15pt;
+    font-weight: 1000;
+    margin-bottom: 0px;
   }
   #homePage p {
     font-size: 8pt;
+    margin-top: 0px;
   }
 }
 
@@ -815,6 +824,44 @@ main nav {
   text-align: center;
 }
 
+.accountBubble p{
+  font-size: 11pt;
+  text-align: center;
+}
+
+#changeCourse fieldset {
+  text-align: center;
+  border: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+#changeCourse fieldset div{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+#changeCourse button{
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-weight: 1000;
+  font-size: 18pt;
+  cursor: pointer;
+}
+
+#changeCourse button:hover{
+  color: #00a8e2;
+}
+
+#changeCourse p{
+  color: #00a8e2;
+  font-weight: bold;
+  margin-block: 3px;
+}
+
 #referencePage .accountBubble > ul {
   text-align: center;
   padding-inline: 5px;
@@ -840,10 +887,6 @@ main nav {
   color: #00a8e2;
 }
 
-#referenceForm{
-  min-width: 400px;
-}
-
 #referenceForm fieldset,
 #confirmReference fieldset {
   border: none;
@@ -861,6 +904,7 @@ main nav {
   margin-right: 15px;
   font-weight: bold;
   font-size: 12pt;
+  white-space: nowrap;
 }
 
 .studentEmail div input {
@@ -941,6 +985,76 @@ main nav {
 #addInput:hover {
   outline: 2px solid #00a8e2;
   color: #00a8e2;
+}
+
+@media only screen and (max-width: 767px) {
+  #referencePage h2{
+    font-size: 15pt;
+  }
+
+  #referencePage .accountBubble > div > ul li{
+    font-size: 10pt;
+  }
+
+  #referencePage #changeCourse button{
+    font-size: 12pt;
+  }
+
+  #referencePage #changeCourse p{
+    font-size: 10pt;
+  }
+
+  .accountBubble p{
+    font-size: 11pt;
+  }
+
+  .studentEmail div label {
+    margin-right: 10px;
+    font-size: 9pt;
+  }
+  
+  .studentEmail div input {
+    padding: 2px;
+  }
+
+  .studentEmail p{
+    font-size: 9pt;
+  }
+  
+  #referenceForm input[type="text"] {
+    font-size: 9pt;
+    width: 120px;
+  }
+
+  #referenceForm input[type="submit"],
+  #confirmReference input[type="submit"],
+  #referenceForm input[type="reset"] {
+  width: 60px;
+  padding: 3px;
+  font-size: 10pt;
+}
+
+#addInput,
+.removeInput {
+  height: 20px;
+  font-size: 10pt;
+}
+
+.removeInput {
+  width: 20px;
+  margin-left: 6px;
+  border-radius: 8px;
+  padding: 1px;
+}
+
+#addInput {
+  font-size: 10pt;
+  width: 100px;
+}
+
+.checkList li{
+  font-size: 11pt;
+}
 }
 
 /**Admin home page styling*/
@@ -1213,6 +1327,11 @@ fieldset select {
 
 .displayCourses {
   border-collapse: collapse;
+}
+
+.displayCourses td{
+  margin-inline: 5px;
+  min-width: 100px;
 }
 
 .returnForm {

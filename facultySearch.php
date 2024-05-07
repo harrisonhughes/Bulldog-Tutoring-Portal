@@ -23,9 +23,10 @@
   //Update last activity variable
   $_SESSION['lastActivity'] = time();
 
-  //Constant to hold size of desired table page length and Professor account code constant
+  //Constant to hold size of desired table page length, Professor account code constant, and table default timestamp
   $PAGE_LENGTH = 25;
   $PROFESSOR_ACCOUNT = 2;
+  $DEFAULT_TIMESTAMP = "2000-01-01 00:00:00";
 
 include 'functions.php';
 
@@ -53,11 +54,11 @@ try{
     //User has confirmed a faculty search operation
     if(isset($_POST['facultySearch'])){
 
-      //Build skeleton of query: selecting all course information, and # of professor referrals for each course
+      //Build skeleton of query: selecting all course information, and # of active professor referrals for each course
       $sql = "SELECT a.*, 
               COUNT(c_p.email) AS num_referred 
               FROM accounts as a
-              LEFT JOIN course_professors c_p ON c_p.email = a.email        
+              LEFT JOIN course_professors c_p ON c_p.email = a.email AND c_p.completed = '{$DEFAULT_TIMESTAMP}'        
               WHERE account_type = {$PROFESSOR_ACCOUNT}";
 
       //User has specifed a first name, add it to query

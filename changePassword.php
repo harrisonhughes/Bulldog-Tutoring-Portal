@@ -46,24 +46,24 @@
         //Validate all information entered for accuracy and correct type
         if(empty($password)){
           $validForm = false;
-          $_SESSION['error']['recover'] = "Password cannot be blank";
+          $_SESSION['error']['change'] = "Password cannot be blank";
         }
         else if(strlen($password) < $MIN_LENGTH){
           $validForm = false;
-          $_SESSION['error']['recover'] = "Password must be at least {$MIN_LENGTH} characters";
+          $_SESSION['error']['change'] = "Password must be at least {$MIN_LENGTH} characters";
         }
 
         if(empty($confirmPassword)){
           $validForm = false;
-          $_SESSION['error']['recover'] = "Confirm password cannot be blank";
+          $_SESSION['error']['change'] = "Confirm password cannot be blank";
         }
         else if(strlen($confirmPassword) < $MIN_LENGTH){
           $validForm = false;
-          $_SESSION['error']['recover'] = "Password must be at least {$MIN_LENGTH} characters";
+          $_SESSION['error']['change'] = "Password must be at least {$MIN_LENGTH} characters";
         }
         else if($password !== $confirmPassword){
           $validForm = false;
-          $_SESSION['error']['recover'] = "Passwords entered do not match";
+          $_SESSION['error']['change'] = "Passwords entered do not match";
         }
 
         //User has correctly reset their passcode barring an incorrect recovery code
@@ -109,6 +109,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bulldog Tutoring Portal</title>
     <link rel="stylesheet" href="styles.css"/>
+    <script src="actions.js"></script>
   </head>
   <body>
   <header>
@@ -125,15 +126,15 @@
     </header>
     <main class = "credentialPage">
       <div>
-        <form action="changePassword.php" method="post" class="credentialForm">
+        <form action="changePassword.php" onsubmit="return validatePassword()" method="post" class="credentialForm">
           <fieldset>
             <h1>Change Password</h1>
-            <p id="recoverEmail" class="error">
+            <p id="changePassword" class="error">
               <?php 
               //Display error message if applicable
-              if(isset($_SESSION['error']['recover'])){
-                echo $_SESSION['error']['recover'];
-                unset($_SESSION['error']['recover']);}
+              if(isset($_SESSION['error']['change'])){
+                echo $_SESSION['error']['change'];
+                unset($_SESSION['error']['change']);}
               ?>
             </p>
             <?php

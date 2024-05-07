@@ -78,7 +78,12 @@ try{
 
     //Loop through all students who currently have at least one active tutoring referral
     foreach($tutoringAccounts as $account){
-      $name = $account['firstname'] . " " . $account['lastname'];
+
+      //Only email student if they have courses to interact with 
+      if($account['num_referred'] > 0 || $account['num_active'] > 0){
+
+        //Build full student name
+        $name = $account['firstname'] . " " . $account['lastname'];
 
         //Build email elements
         $emailBody = "Dear {$name},<br><br>It's that time again! We have on record that this email is linked to an account on our platform - so we will assume you know how this works; if not, 
@@ -87,26 +92,28 @@ try{
         //Configure plural vs singular obligations
         $also = "";
         if($account['num_active'] > 0){
-          $pluralActive = "";
 
-          //Individual had active tutoring obligations in the previous semester
+          //Individual had more than one active tutoring obligation in the previous semester
+          $pluralActive = "";
           if($account['num_active'] > 1){
             $pluralActive = "s";
-
-            $emailBody .= "You previously had tutoring obligations for <b>{$account['num_active']}</b> course{$pluralActive}. ";
           }
 
+          //Continue to build message with previous active courses portion
+          $emailBody .= "You previously had tutoring obligations for <b>{$account['num_active']}</b> course{$pluralActive}. ";
           $also = "also ";
         }
 
         //Configure plural vs singular obligations
         if($account['num_referred'] > 0){
+
+          //Individual has more than one new referral
           $pluralReferred = "";
           if($account['num_referred'] > 1){
             $pluralReferred = "s";
-
-            $emailBody .= "You have {$also}been referred for <b>{$account['num_referred']}</b> new course{$pluralReferred} by your professors.<br><br>";
           }
+
+          $emailBody .= "You have {$also}been referred for <b>{$account['num_referred']}</b> new course{$pluralReferred} by your professors.<br><br>";
         }
 
         $emailBody .= "If you would like to continue participation with our platform as a tutor, please <a href='{$URL_LOGIN}'>sign in</a>
@@ -115,6 +122,7 @@ try{
         $emailHeader = "Student Tutoring Opportunity";
 
         sendEmail($account['email'], $name, $emailHeader, $emailBody);
+      }
     }
 
     //Get email of all referred students without an account
@@ -142,7 +150,7 @@ try{
         We would like to inform you that you have been referred to be a potential tutor for <b>{$tutors['num_referred']}</b> course{$plural} by your professors. While participation is not mandatory, 
         your acceptance of any tutoring referral will provide other Bulldogs with the opportunity to potentially connect with you and learn from a great student such as yourself.<br><br>
         Please <a href='{$URL_CREATE}'>create an account</a> and navigate to your account page to interact with your tutoring referrals. You can opt out at
-        any time.<br><br><b>The Bulldog Tutoring Portal</b><br><em>Truman State University<br>BulldogTutoring@outlook.com</em>";
+        any time.";
 
         $emailHeader = "Student Tutoring Opportunity";
 

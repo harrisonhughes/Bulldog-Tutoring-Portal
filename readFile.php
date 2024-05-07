@@ -30,7 +30,6 @@
 
   //Define constants for access control, professor account creation, current directory, and excel file format
   $PROFESSOR_ACCOUNT = 2;
-  //$DEFAULT_PROF_PASSWORD = getenv('DEFAULT_PROF');
   $DEFAULT_PROF_PASSWORD = "dajdbjsabdadbad89312";
   $FILE_DIRECTORY = __DIR__  . "/courseLists/";
   $EXCEL_FILE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
@@ -243,11 +242,6 @@ try{
             }
 
             $courseId = $course[0]; 
-            
-            //Create a professor referral for the row using sql injection attack prevention steps
-            $sql = "INSERT IGNORE INTO course_professors (email, course_id) VALUES (?, ?)";
-            $result = $pdo->prepare($sql);
-            $result->execute([$email, $courseId]);
 
             //Check if professor account exists using sql injection attack prevention steps
             $sql = "SELECT account_type FROM accounts WHERE email = ?";
@@ -274,6 +268,11 @@ try{
               $result = $pdo->prepare($sql);
               $result->execute();
             }
+
+            //Create a professor referral for the row using sql injection attack prevention steps
+            $sql = "INSERT IGNORE INTO course_professors (email, course_id) VALUES (?, ?)";
+            $result = $pdo->prepare($sql);
+            $result->execute([$email, $courseId]);
           }
           else{
             break;

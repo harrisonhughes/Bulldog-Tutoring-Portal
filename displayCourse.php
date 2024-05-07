@@ -166,7 +166,7 @@
       <form action='displayStudent.php' method='post' id='editDisplayForm'>
         <fieldset>
         <div class='accountBubble'>
-          <h2>Open Professor Referrals</h2>
+          <h2>Active Professors</h2>
             <table>
               <thead>
                 <tr>

@@ -26,6 +26,7 @@ if(!empty($messages)){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bulldog Tutoring Portal</title>
     <link rel="stylesheet" href="styles.css"/>
+    <script src="actions.js"></script>
   </head>
   <body>
     <header>
@@ -47,7 +48,7 @@ if(!empty($messages)){
       ?>
     </p>
       <div>
-        <form action="credentials.php" method="post" class="credentialForm">
+        <form action="credentials.php" onsubmit="return validateLogin()" method="post" class="credentialForm">
           <fieldset>
             <h1>User Login</h1>
             <div>

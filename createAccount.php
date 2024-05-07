@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bulldog Tutoring Account Creation</title>
     <link rel="stylesheet" href="styles.css"/>
+    <script src="actions.js"></script>
   </head>
   <body>
     <header>
@@ -18,7 +19,7 @@
     </header>
     <main class = "credentialPage">
       <div>
-        <form action="credentials.php" method="post" class="credentialForm">
+        <form action="credentials.php" onsubmit="return validateCreate()" method="post" class="credentialForm">
           <fieldset>
             <h1>Create an Account</h1>
             <div>
