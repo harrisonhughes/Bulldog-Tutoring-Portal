@@ -294,7 +294,7 @@ $pdo = null;
                 <option value='0'>Private</option>
                 <option value='1'>Scholarship</option>
               </select>
-              <input class='blueButton' type='submit' name='accountSearch' value='Search'>
+              <input class='blueButton' type='submit' name='accountSearch' value='Submit'>
               </div>
             </div>";
 

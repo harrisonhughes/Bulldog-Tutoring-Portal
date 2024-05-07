@@ -26,9 +26,9 @@
   //Constants to validate professor input
   $TRUMAN_EMAIL = "@truman.edu";
   $MAX_LENGTH = 50;
+  $DEFAULT_TIMESTAMP = "2000-01-01 00:00:00";
   
   include_once 'functions.php';
-
 
   try{
     $pdo = connect(); 
@@ -37,7 +37,8 @@
     $user = test_input($_SESSION['user']);
     
     //Get all course information for the courses that the current professor still needs to create references for
-    $sql = "SELECT c.* FROM courses c 
+    $sql = "SELECT c.*, c_p.completed
+    FROM courses c 
     JOIN course_professors c_p ON c.id = c_p.course_id
     JOIN accounts a ON a.email = c_p.email
     WHERE a.email = ?";
@@ -47,9 +48,29 @@
     $result->execute([$user]);
     $courses = $result->fetchAll();
 
+    //If user has just clicked a specific class make that the active course
+    if(isset($_POST['selectedId'])){
+      $selectedId = test_input($_POST['selectedId']);
+
+      foreach($courses as $course){
+        if($course['id'] == $selectedId){
+          $_SESSION['currentCourse'] = $course;
+        }
+      }
+
+      //Reload page to remove post request type tag
+      header("Location: reference.php");
+      exit();
+    }
+
     //Ensure there is an active class to refer students for if applicable: this session variable is used throughout page
     if(!isset($_SESSION['currentCourse']) && !empty($courses)){
-      $_SESSION['currentCourse'] = $courses[0];
+      foreach($courses as $course){
+        if($course['completed'] == $DEFAULT_TIMESTAMP){
+          $_SESSION['currentCourse'] = $course;
+          break;
+        }
+      }
     }
 
     //Account deleted, remove from database, route user to login page where they are automatically logged out
@@ -81,6 +102,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Faculty Referral Interface</title>
     <link rel="stylesheet" href="styles.css"/>
     <script src="actions.js"></script>
@@ -102,10 +124,13 @@
     <h1 class="mainHeader">Faculty Referral Interface</h1>
     <p id="recoverEmail" class="message">
       <?php 
-      //Display error message if applicable
+      //Display message if applicable
       if(isset($_SESSION['message']['passReset'])){
         echo $_SESSION['message']['passReset'];
         unset($_SESSION['message']['passReset']);}
+      else if(isset($_SESSION['message']['confSubmission'])){
+        echo $_SESSION['message']['confSubmission'];
+        unset($_SESSION['message']['confSubmission']);}
       ?>
     </p>
       <div>
@@ -119,31 +144,45 @@
               <li>Pro Tip: pull up your <b>Brightspace courselist</b> to have instant access to all name/email pairs</li>
             </ul>
           </div>
-          <h2>To-do List</h2>
-          <ul>
+          <h2>Active Courses</h2>
             <?php
-            if(!empty($courses)){
 
-              //List all courses that still need to have references submitted for by this professor
-              foreach($courses as $course){
-                echo "<li>" . $course['subject'] . " " . $course['course_code'] . "</li>";
+              //If the professor has active courses
+              if(!empty($courses)){
+                echo "<form action='reference.php' method='post' id='changeCourse'>
+                <fieldset> ";
+                
+                //List all courses and their current referral status
+                foreach($courses as $course){
+
+                  //Determine whether or not the current course has already had a referral submission this semester
+                  $progress = "(Completed!)";
+                  if($course['completed'] == $DEFAULT_TIMESTAMP){
+                    $progress = "(Incomplete)";
+                  }
+
+                  echo "<div>
+                  <button type='submit' name='selectedId' value={$course['id']}>" . $course['subject'] . " " . $course['course_code'] . "</button>
+                  <p>{$progress}</p></div>";
+                }
+
+                echo "</fieldset>
+                </form>";
               }
-            }
-            else{
-              echo "<li>You have completed all student referrals this semester!</li>";
-            }
+              else{
+                echo "<p>You have no active courses this semester!</p>";
+              }
             ?>
-          </ul>
         </div>
         <?php
-          //If the professor has not submitted all referral lists for current period, display the referral list for the current class
           if(isset($_SESSION['currentCourse'])){
-
+            
             //Begin referral div block
             echo "<div class='accountBubble'>";
               
               //Standardize current class
               $course = $_SESSION['currentCourse']['subject'] . " " . $_SESSION['currentCourse']['course_code'];
+
               echo "<h2>{$course}</h2>";
 
               if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -237,20 +276,26 @@
                 }
 
                 //User has confirmed the list of valid emails to be sent to the temporary data table of references
-                else{
+                else if(isset($_POST['confirmReferences'])){
+                  
+                  //Create variables to identify current referral entry and time
                   $courseId = test_input($_SESSION['currentCourse']['id']);
                   $professor = $_SESSION['user'];
+                  $time = date('Y-m-d H:i:s');
+
                   try{
 
                     //Insert every email into table of referred students
                     foreach($_SESSION['references'] as $student){
                       $email = test_input($student) . "@truman.edu";
 
+                      //Ensure student is not already an active tutor before entering into referred tutors
                       $sql = "SELECT * FROM active_tutors WHERE email = ? AND course_id = ?";
                       $result = $pdo->prepare($sql);
                       $result->execute([$email, $courseId]);  
                       $alreadyActive = $result->fetch();
             
+                      //Enter email into referred tutors if not active
                       if(!$alreadyActive){
                         $sql = "INSERT IGNORE INTO referred_tutors (email, course_id) VALUES (?, ?)";
                         $result = $pdo->prepare($sql);
@@ -258,10 +303,11 @@
                       }
                     }
 
-                    //Remove current course from professor's list of active courses; they have completed their referral obligations for this course
-                    $sql = "DELETE FROM course_professors WHERE course_id = ? AND email = ?";
+                    //Update professor referral to indicate completion and create confirmation message
+                    $sql = "UPDATE course_professors SET completed = ? WHERE email = ? AND course_id = ?";
                     $result = $pdo->prepare($sql);
-                    $result->execute([$courseId, $professor]);
+                    $result->execute([$time, $professor, $courseId]);
+                    $_SESSION['message']['confSubmission'] = "Referral list successfully submitted";
                   }
 
                   //Ensure proper error message is returned upon a database error

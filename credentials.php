@@ -81,7 +81,7 @@
       else if(isset($_POST['createForm'])){
 
         // Filter the user text to prevent script injection
-        $email = test_input($_POST['email']);
+        $email = strtolower(test_input($_POST['email']));
         $password = test_input($_POST['password']);
         $confirmPassword = test_input($_POST['confirmPassword']);
         $firstname = test_input($_POST['firstname']);
@@ -132,7 +132,7 @@
           $validForm = false;
           $_SESSION['errors']['fname'] = "Name must be in a valid format";
         }
-        else if(strlen($email) > $MAX_LENGTH){
+        else if(strlen($firstname) > $MAX_LENGTH){
           $validForm = false;
           $_SESSION['errors']['fname'] = "Firstname must be no longer than {$MAX_LENGTH} characters";
         }
@@ -145,7 +145,7 @@
           $validForm = false;
           $_SESSION['errors']['lname'] = "Name must be in a valid format";
         }
-        else if(strlen($email) > $MAX_LENGTH){
+        else if(strlen($lastname) > $MAX_LENGTH){
           $validForm = false;
           $_SESSION['errors']['lname'] = "Lastname must be no longer than {$MAX_LENGTH} characters";
         }

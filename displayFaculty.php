@@ -22,6 +22,9 @@
 
   //Update last activity variable
   $_SESSION['lastActivity'] = time();
+
+  //Default database timestamp to check incomplete referral
+  $DEFAULT_TIMESTAMP = "2000-01-01 00:00:00";
   
   include_once 'functions.php';
 
@@ -125,7 +128,8 @@
       $email = $user['email'];
   
       //Select all open referrals for the professor
-      $sql = "SELECT c.* FROM courses c 
+      $sql = "SELECT c.*, c_p.completed 
+      FROM courses c 
       JOIN course_professors c_p ON c.id = c_p.course_id
       JOIN accounts a ON a.email = c_p.email
       WHERE a.email = ?";
@@ -136,7 +140,7 @@
       $openReferrals = $result->fetchAll();
 
       //Obtain all individual subjects from database
-      $sql = "SELECT DISTINCT subject FROM courses";
+      $sql = "SELECT DISTINCT subject FROM courses ORDER BY subject";
       $result = $pdo->prepare($sql);
       $result->execute();
       $courselist = $result->fetchAll();
@@ -226,12 +230,13 @@
             </table>
           </div>
           <div class='accountBubble'>
-          <h2>Open Referrals</h2>
+          <h2>Active Courses</h2>
             <table class='displayCourses'>
               <thead>
                 <tr>
                   <th>Subject</th>
                   <th>Course Code</th>
+                  <th>Status</th>
                   <th></th>
                 </tr>
               </thead>
@@ -241,11 +246,18 @@
                 foreach($openReferrals as $course){
                   $subject = $course['subject'];
                   $courseCode = $course['course_code'];
+
+                  $progress = "Complete";
+                  if($course['completed'] == $DEFAULT_TIMESTAMP){
+                    $progress = "Incomplete";
+                  }
+
                   $id = $course['id'];
 
                   echo 
                   "<tr><td>{$subject}</td>
                   <td>{$courseCode}</td>
+                  <td>{$progress}</td>
                   <td><button class='blueButton' type='submit' name='removeReferral' value='{$id}'>Remove Referral</button></td></tr>";
                 }
 
@@ -262,6 +274,7 @@
                   <td><select name ='courseCode' class='courseSelect' id='courseCode'>
                     <option disabled selected value></option>
                     </select></td>
+                  <td></td>
                   <td><button class='blueButton' type='submit' name='addReferral'>Add Referral</button></td></tr>";
               ?>
               </tbody> 

@@ -69,7 +69,7 @@ try{
         ability and personality to be a tutor for each of your current classes. The entire process should take you no more than 5 minutes - you need only enter student email addresses to complete 
         your obligation.<br><br>
 
-        We have on record that you are teaching <b>{$referralCount}</b> class{$plural} this semester. To participate, please <a href={$URL}>sign in</a> 
+        We have on record that you are teaching <b>{$referralCount}</b> class{$plural} this semester. To participate, please <a href='{$URL}'>sign in</a> 
         with your faculty email to begin recommending.";
 
         //If professor account has just been created, assign a random password

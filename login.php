@@ -1,7 +1,10 @@
 <?php
 session_start();
+
 //Save relevant login messages before ending session
-$messages = $_SESSION['message'];
+if(!empty($_SESSION['messages'])){
+  $messages = $_SESSION['message'];
+}
 
 //Login page turns into logout page when user is logged in: log out user upon visting this page
 if(isset($_SESSION['user'])){
@@ -9,7 +12,12 @@ if(isset($_SESSION['user'])){
 }
 
 unset($_SESSION['recoveryEmail']);
-$_SESSION['message'] = $messages;
+
+//Reload initial messages into correct location
+if(!empty($messages)){
+  $_SESSION['message'] = $messages;
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -18,6 +26,7 @@ $_SESSION['message'] = $messages;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bulldog Tutoring Portal</title>
     <link rel="stylesheet" href="styles.css"/>
+    <script src="actions.js"></script>
   </head>
   <body>
     <header>
@@ -39,7 +48,7 @@ $_SESSION['message'] = $messages;
       ?>
     </p>
       <div>
-        <form action="credentials.php" method="post" class="credentialForm">
+        <form action="credentials.php" onsubmit="return validateLogin()" method="post" class="credentialForm">
           <fieldset>
             <h1>User Login</h1>
             <div>
