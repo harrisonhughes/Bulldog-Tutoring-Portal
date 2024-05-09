@@ -796,6 +796,15 @@ main nav {
   .deleteForm button, #changePassword button{
     font-size: 9pt;
   }
+
+  #accountPage .accountTable td, #accountPage .accountTable th{
+    font-size: 10pt;
+  }
+
+  #accountPage .accountTable button{
+    font-size: 10pt;
+    padding: 3px;
+  }
 }
 
 /**Styling Professor Reference Page*/
