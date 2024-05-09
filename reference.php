@@ -50,7 +50,12 @@
 
     //If user has just clicked a specific class make that the active course
     if(isset($_POST['selectedId'])){
+
+      //Check which course has been selected to create referrals for next
       $selectedId = test_input($_POST['selectedId']);
+
+      //Remove any emails that may be saved
+      unset($_SESSION['references']);
 
       foreach($courses as $course){
         if($course['id'] == $selectedId){
