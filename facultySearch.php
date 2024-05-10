@@ -58,7 +58,7 @@ try{
       $sql = "SELECT a.*, 
               COUNT(c_p.email) AS num_referred 
               FROM accounts as a
-              LEFT JOIN course_professors c_p ON c_p.email = a.email AND c_p.completed = '{$DEFAULT_TIMESTAMP}'        
+              LEFT JOIN course_professors c_p ON c_p.email = a.email       
               WHERE account_type = {$PROFESSOR_ACCOUNT}";
 
       //User has specifed a first name, add it to query
@@ -288,7 +288,7 @@ $pdo = null;
                   <td><input type='submit' name='sortSearch' value='Firstname'></td>
                   <td><input type='submit' name='sortSearch' value='Lastname'</td>
                   <td><input type='submit' name='sortSearch' value='Email'></td>
-                  <td><input type='submit' name='sortSearch' value='Open Referrals'</td>
+                  <td><input type='submit' name='sortSearch' value='Active Courses'</td>
                   <td><input type='submit' name='sortSearch' value='Last Activity'</td>
                   <td></td>
                 </tr>
