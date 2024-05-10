@@ -89,7 +89,7 @@
                 FROM courses c
                 LEFT JOIN active_tutors a_t ON a_t.course_id = c.id
                 LEFT JOIN referred_tutors r_t ON r_t.course_id = c.id
-                LEFT JOIN course_professors c_p ON c_p.course_id = c.id AND c_p.completed = '{$DEFAULT_TIMESTAMP}'";
+                LEFT JOIN course_professors c_p ON c_p.course_id = c.id";
 
         //User has specified a subject. We must add this to the query 
         if(!empty($_POST['subject'])){
